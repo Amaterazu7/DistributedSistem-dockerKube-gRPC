@@ -41,19 +41,15 @@ One example running the docker image in our local port 9000.
 $ docker run -it -p 9000:3000 docker-rappi-oeste:1.0.0
 ```
 
-Or we can run the docker compose that already have everything defined.
+One example to enter into a running container
 
 ```shell
-$ docker-compose build
+$ docker exec -it ${ontainerID} sh
 ```
 
 #### Environment Variables
 
 * `HOME` - This is the path of our app location inside the container `/usr/src/app`
-
-#### Volumes
-
-* `/your/file/location` - File location
 
 
 #### Externals Libs Node
