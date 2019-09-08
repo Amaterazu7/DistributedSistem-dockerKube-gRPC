@@ -55,9 +55,15 @@ $ docker-compose build
 
 * `/your/file/location` - File location
 
-#### Externals Libs
+
+#### Externals Libs Node
+
 <a href="https://nodejs.org/es/docs/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/400px-Node.js_logo.svg.png" margin-bottom="8" width="70">
-</a><a href="https://dev.mysql.com/doc/"><img src="https://d1q6f0aelx0por.cloudfront.net/product-logos/0dd7193f-e747-4a15-b797-818b9fac3656-mysql.png" width="70"></a><a>  </a>
+
+
+#### Externals Libs Mysql
+
+</a><a href="https://dev.mysql.com/doc/"><img src="https://d1q6f0aelx0por.cloudfront.net/product-logos/0dd7193f-e747-4a15-b797-818b9fac3656-mysql.png" width="80"></a><a>  </a>
 
 
 ## Authors
