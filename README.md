@@ -1,6 +1,7 @@
 ## Distributed System with Docker, Kubernetes, MySQL & ExpressJS
 
-<a href="https://docs.docker.com/"><img src="https://docs.docker.com/favicons/docs@2x.ico" width="32"></a><a>  </a><a href="https://kubernetes.io/es/docs/home/"><img src="https://kubernetes.io/images/nav_logo.svg" width="180"></a><a>  </a><a href="https://nodejs.org/es/docs/"><img src=https://www.devsensation.es/sites/default/files/styles/large/public/field/image/nodejs-logo.png?itok=URP6hUpT" width="100"></a>
+<a href="https://docs.docker.com/"><img src="https://docs.docker.com/favicons/docs@2x.ico" width="32"></a><a>  </a><a href="https://kubernetes.io/es/docs/home/"><img src="https://kubernetes.io/images/nav_logo.svg" width="180"></a><a>  </a>
+<a href="https://nodejs.org/es/docs/"><img src=https://www.devsensation.es/sites/default/files/styles/large/public/field/image/nodejs-logo.png" width="100"></a>
 
 ## Why Docker
 
