@@ -1,9 +1,6 @@
 ## Distributed System with Docker, Kubernetes, MySQL & ExpressJS
 
-<img src="https://docs.docker.com/favicons/docs@2x.ico" width="48">
-<img src="https://kubernetes.io/images/nav_logo.svg" width="48">
-
-[![Docker](https://docs.docker.com/favicons/docs@2x.ico | width="50%" height="50%")](https://docs.docker.com/) [![Kubernetes](https://kubernetes.io/images/nav_logo.svg | width="50%" height="50%")](https://kubernetes.io/es/docs/home/)
+<img src="https://docs.docker.com/favicons/docs@2x.ico" width="40"> <img src="https://kubernetes.io/images/nav_logo.svg" width="100">
 
 
 ## Getting Started
