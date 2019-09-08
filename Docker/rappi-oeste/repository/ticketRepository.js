@@ -53,7 +53,7 @@ module.exports.getTicket = (conn, res, id) => {
 };
 
 module.exports.findAllTickets = (conn, res) => {
-    conn.query('SELECT * FROM ticket ;', undefined, (error, results) => {
+    conn.query(`SELECT * FROM ticket ;`, undefined, (error, results) => {
         if (error) throw error;
         console.log(`The result count is ::: ${results.length}`);
 
