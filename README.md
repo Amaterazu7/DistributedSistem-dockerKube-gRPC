@@ -1,12 +1,6 @@
 ## Distributed System with Docker, Kubernetes, MySQL & ExpressJS
 
-<img src="https://docs.docker.com/favicons/docs@2x.ico" width="40"> <img src="https://kubernetes.io/images/nav_logo.svg" width="100">
-
-
-## Getting Started
-
-These instructions will cover usage information and for the docker container.
-
+<a href="https://docs.docker.com/"><img src="https://docs.docker.com/favicons/docs@2x.ico" width="40"></a><a href="https://kubernetes.io/es/docs/home/"><img src="https://kubernetes.io/images/nav_logo.svg" width="100"></a>
 
 ## Why Docker
 
@@ -15,6 +9,11 @@ These instructions will cover usage information and for the docker container.
 Developers can get going quickly by starting with one of the 13,000+ apps available on Docker Hub. Docker manages and tracks changes and dependencies, making it easier for sysadmins to understand how the apps that developers build work. And with Docker Hub, developers can automate their build pipeline and share artifacts with collaborators through public or private repositories.
 
 Docker helps developers build and ship higher-quality applications, faster." -- [What is Docker](https://www.docker.com/what-docker#copy1)
+
+
+## Getting Started
+
+These instructions will cover usage information and for the docker container.
 
 
 ### Prerequisities
