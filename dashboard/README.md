@@ -59,6 +59,11 @@ material-dashboard-angular
 │   │   │   ├── dashboard.component.html
 │   │   │   ├── dashboard.component.spec.ts
 │   │   │   └── dashboard.component.ts
+│   │   ├── home
+│   │   │   ├── home.component.css
+│   │   │   ├── home.component.html
+│   │   │   ├── home.component.spec.ts
+│   │   │   └── home.component.ts
 │   │   ├── icons
 │   │   │   ├── icons.component.css
 │   │   │   ├── icons.component.html
@@ -85,8 +90,8 @@ material-dashboard-angular
 │   │   ├── table-list
 │   │   │   ├── table-list.component.css
 │   │   │   ├── table-list.component.html
-│   │   │   ├── table-list.component.spec.ts
-│   │   │   └── table-list.component.ts
+│   │   │   ├── ticket-list.component.spec.ts
+│   │   │   └── ticket-list.component.ts
 │   │   ├── typography
 │   │   │   ├── typography.component.css
 │   │   │   ├── typography.component.html
@@ -95,8 +100,8 @@ material-dashboard-angular
 │   │   ├── upgrade
 │   │   │   ├── upgrade.component.css
 │   │   │   ├── upgrade.component.html
-│   │   │   ├── upgrade.component.spec.ts
-│   │   │   └── upgrade.component.ts
+│   │   │   ├── sign-in.component.spec.ts
+│   │   │   └── sign-in.component.ts
 │   │   └── user-profile
 │   │       ├── user-profile.component.css
 │   │       ├── user-profile.component.html

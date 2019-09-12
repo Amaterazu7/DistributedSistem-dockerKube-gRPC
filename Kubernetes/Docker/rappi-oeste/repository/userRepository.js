@@ -3,20 +3,25 @@ const interceptor = require('../service/interceptor');
 module.exports.saveUser = (conn, res, user) => {
     let fields = [
         user.id,
+        user.dni_passport,
+        user.user_name,
+        user.password,
         user.name,
         user.surname,
-        user.dni_passport,
-        user.nationality,
-        user.address,
-        user.phone,
         user.email,
-        user.registered,
+        user.phone,
+        user.address,
+        user.city,
+        user.country,
+        user.nationality,
+        user.about,
         user.miles,
-        user.password
+        user.registered
     ];
     conn.query(
-        `INSERT INTO user (id, name, surname, dni_passport, nationality, address, phone, email, registered, miles, password) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;`, fields, (error, results) => {
+        `INSERT INTO user (id, dni_passport, user_name, password, name, surname, email, phone, address, city, 
+                           country, nationality, about, miles, registered) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;`, fields, (error, results) => {
             if (error) throw error;
             console.log(`The affectedRows are ::: ${results.affectedRows}`);
 
@@ -24,11 +29,14 @@ module.exports.saveUser = (conn, res, user) => {
         });
 };
 
-module.exports.updateUser = (conn, res, body) => {
-    let {name, surname, dni_passport, nationality, address, phone, email,registered, miles, password, id} = body;
-    let fields = [name, surname, dni_passport, nationality, address, phone, email,registered, miles, password, id];
-    conn.query(`UPDATE user SET name = ?, surname = ?, dni_passport = ?, nationality = ?, address = ?, phone = ?,
-     email = ?, registered = ?, miles = ?, password = ? WHERE id = ? ;`, fields, (error, results) => {
+module.exports.updateUser = (conn, res, user) => {
+    let {id, dni_passport, user_name, password, name, surname, email, phone,
+        address, city, country, nationality, about, miles, registered, root} = user;
+    let fields = [id, dni_passport, user_name, password, name, surname, email, phone,
+        address, city, country, nationality, about, miles, registered, root];
+
+    conn.query(`UPDATE user SET dni_passport = ?, user_name = ?, password = ?, name = ?, surname = ?, email = ?, phone = ?, address = ?,
+    city = ?, country = ?, nationality = ?, about = ?, miles = ?, registered = ?, root = ? WHERE id = ? ;`, fields, (error, results) => {
         if (error) throw error;
         console.log(`The result count is ::: ${results.affectedRows}`);
 

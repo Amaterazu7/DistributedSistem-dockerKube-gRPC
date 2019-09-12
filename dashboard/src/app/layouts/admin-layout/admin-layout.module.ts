@@ -3,14 +3,15 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
+import { HomeComponent } from '../../home/home.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TableListComponent } from '../../table-list/table-list.component';
+import { TicketListComponent } from '../../ticket-list/ticket-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import { UpgradeComponent } from '../../upgrade/upgrade.component';
+import { SignInComponent } from '../../sign-in/sign-in.component';
 
 import {
   MatButtonModule,
@@ -34,14 +35,15 @@ import {
     MatTooltipModule,
   ],
   declarations: [
+    HomeComponent,
     DashboardComponent,
     UserProfileComponent,
-    TableListComponent,
+    TicketListComponent,
     TypographyComponent,
     IconsComponent,
     MapsComponent,
     NotificationsComponent,
-    UpgradeComponent,
+    SignInComponent,
   ]
 })
 
