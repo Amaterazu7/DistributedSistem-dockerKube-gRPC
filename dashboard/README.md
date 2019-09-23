@@ -100,7 +100,7 @@ material-dashboard-angular
 │   │   ├── upgrade
 │   │   │   ├── upgrade.component.css
 │   │   │   ├── upgrade.component.html
-│   │   │   ├── sign-in.component.spec.ts
+│   │   │   ├── log-in.component.spec.ts
 │   │   │   └── sign-in.component.ts
 │   │   └── user-profile
 │   │       ├── user-profile.component.css

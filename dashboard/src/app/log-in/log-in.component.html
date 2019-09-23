@@ -1,0 +1,56 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">LogIn into the APP</h4>
+                        <p class="card-category">Complete all field are mandatory</p>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-8">
+                                    <img src="../../assets/img/login.png" class="padding-image">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-1 login-icon"><i class="material-icons text-danger">sentiment_satisfied_alt</i></div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input required matInput placeholder="Username" type="text" name="username" [(ngModel)]="login.user_name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-1 login-icon"><i class="material-icons text-danger">lock</i></div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input required matInput placeholder="Password" type="password" name="password" [(ngModel)]="login.password">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-lg btn-danger pull-right" (click)="logUser()">
+                                LogIn
+                            </button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-danger">contacts</i>
+                            <a href="javascript:void(0)">Have you forgotten your username or password?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</div>

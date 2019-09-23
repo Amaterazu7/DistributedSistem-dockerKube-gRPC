@@ -1,0 +1,39 @@
+.card-home {
+    margin-top: 0px !important;
+}
+
+.transparent-back {
+    background-color: transparent;
+}
+
+/deep/ .mat-step-icon-selected {
+    background-color: #f44336 !important;
+}
+/deep/ .mat-step-icon-state-done {
+    background-color: #f44336 !important;
+}
+/deep/ .mat-step-icon-state-edit {
+    background-color: #f44336 !important;
+}
+
+/deep/ .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    border-color: #f44336 !important;
+}
+
+/deep/ .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color: #f44336 !important;
+    background-color: #f44336 !important;
+}
+
+/deep/ .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: #f44336 !important;
+}
+
+/deep/ .main-panel .main-content {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+/deep/ .carousel-slide {
+    height: 450px !important;
+}

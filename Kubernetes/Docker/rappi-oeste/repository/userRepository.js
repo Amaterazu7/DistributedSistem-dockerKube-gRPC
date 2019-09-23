@@ -1,11 +1,14 @@
+const uuidv4 = require('uuid/v4');
 const interceptor = require('../service/interceptor');
 
-module.exports.saveUser = (conn, res, user) => {
+module.exports.saveUser = async (conn, res, user) => {
+    let buff = Buffer.from(user.password);
+    let base64data = buff.toString('base64');
     let fields = [
-        user.id,
+        uuidv4(),
         user.dni_passport,
         user.user_name,
-        user.password,
+        base64data,
         user.name,
         user.surname,
         user.email,
@@ -18,25 +21,24 @@ module.exports.saveUser = (conn, res, user) => {
         user.miles,
         user.registered
     ];
-    conn.query(
-        `INSERT INTO user (id, dni_passport, user_name, password, name, surname, email, phone, address, city, 
+    let query = `INSERT INTO user (id, dni_passport, user_name, password, name, surname, email, phone, address, city, 
                            country, nationality, about, miles, registered) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;`, fields, (error, results) => {
-            if (error) throw error;
-            console.log(`The affectedRows are ::: ${results.affectedRows}`);
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;`;
 
-            interceptor.response(res, 200, 'SUCCESS', results);
-        });
+    let results = await interceptor.dbRequest(conn, query, fields, `The affectedRows are :::`, false);
+    interceptor.response(res, 200, 'SUCCESS', results);
 };
 
 module.exports.updateUser = (conn, res, user) => {
     let {id, dni_passport, user_name, password, name, surname, email, phone,
-        address, city, country, nationality, about, miles, registered, root} = user;
-    let fields = [id, dni_passport, user_name, password, name, surname, email, phone,
-        address, city, country, nationality, about, miles, registered, root];
+        address, city, country, nationality, about, miles, registered} = user;
+    let buff = Buffer.from(password);
+    let base64data = (user.change_pass) ? buff.toString('base64') : password;
+    let fields = [dni_passport, user_name, base64data, name, surname, email, phone, address,
+        city, country, nationality, about, miles, registered, id];
 
     conn.query(`UPDATE user SET dni_passport = ?, user_name = ?, password = ?, name = ?, surname = ?, email = ?, phone = ?, address = ?,
-    city = ?, country = ?, nationality = ?, about = ?, miles = ?, registered = ?, root = ? WHERE id = ? ;`, fields, (error, results) => {
+    city = ?, country = ?, nationality = ?, about = ?, miles = ?, registered = ? WHERE id = ? ;`, fields, (error, results) => {
         if (error) throw error;
         console.log(`The result count is ::: ${results.affectedRows}`);
 

@@ -10,20 +10,25 @@
                   <div class="card-body">
                       <form *ngIf="user">
                           <div class="row">
-                              <div class="col-md-5">
+                              <div class="col-md-4">
                                   <mat-form-field class="example-full-width">
-                                      <input required matInput placeholder="DNI/Passport Number" disabled name="dni_passport" [(ngModel)]="user.dni_passport">
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-md-3">
-                                  <mat-form-field class="example-full-width">
-                                      <input required matInput placeholder="Username" name="user_name" [(ngModel)]="user.user_name">
+                                      <input required matInput placeholder="DNI/Passport Number" name="dni_passport" [(ngModel)]="user.dni_passport">
                                   </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                   <mat-form-field class="example-full-width">
-                                      <input required matInput placeholder="Password" type="password" name="password" [(ngModel)]="user.password">
+                                      <input required matInput placeholder="Username" name="user_name" [(ngModel)]="user.user_name">
                                   </mat-form-field>
+                              </div>
+                              <div class="col-md-3">
+                                  <mat-form-field class="example-full-width">
+                                      <input required matInput placeholder="Password" type="password" [disabled]="!user.change_pass" name="password"
+                                             [(ngModel)]="user.password">
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-1 checkbox-pass">
+                                  <mat-checkbox type="change_pass" name="change_pass" [(ngModel)]="user.change_pass" color="warn">
+                                  </mat-checkbox>
                               </div>
                           </div>
                           <div class="row">
@@ -92,7 +97,7 @@
               <div class="card card-profile">
                   <div class="card-avatar">
                       <a href="javascript:void(0)">
-                          <img class="img" src="./assets/img/faces/marc.jpg" />
+                          <img class="img" src="{{'./assets/img/faces/'+ user.user_name + '.jpg'}}" />
                       </a>
                   </div>
                   <div class="card-body" *ngIf="user">
