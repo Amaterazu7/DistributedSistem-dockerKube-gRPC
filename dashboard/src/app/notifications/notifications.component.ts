@@ -15,7 +15,7 @@ export class NotificationsComponent implements OnInit {
 
       $.notify({
           icon: "notifications",
-          message: "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer."
+          message: "Welcome to <b>Rappi Oeste</b> - a beautiful freebie for every web developer."
 
       },{
           type: type[color],
