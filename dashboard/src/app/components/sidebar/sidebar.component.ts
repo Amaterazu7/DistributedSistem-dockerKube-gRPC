@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 
 export const validateSession = () => {
-    const validator = (sessionStorage.getItem('logged-user')) ? true : false;
+    const validator = (sessionStorage.getItem('_logged-user')) ? true : false;
     return (validator);
 };
 

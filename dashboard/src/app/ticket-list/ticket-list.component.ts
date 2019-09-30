@@ -1,7 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { FilterService } from '../service/filter.service';
+import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { Ticket } from '../model/ticket.model';
-import {Airport} from '../model/airport.model';
+import { Airport } from '../model/airport.model';
 
 @Component({
   selector: 'app-table-list',
@@ -9,16 +13,18 @@ import {Airport} from '../model/airport.model';
   styleUrls: ['./ticket-list.component.css']
 })
 export class TicketListComponent implements OnInit {
-  picker1: string;
-  picker2: string;
+  private subscription: Subscription = new Subscription();
+  public dialogRef: MatDialogRef<SpinnerComponent>;
   ticketList: Array<Ticket>;
   airportList: Array<Airport>;
-  airportFrom: Airport;
-  airportTo: Airport;
   displayedColumns: Array<string>;
   selectFormControl: FormControl;
+  picker1: string;
+  picker2: string;
+  airportFrom: Airport;
+  airportTo: Airport;
 
-  constructor() { }
+  constructor(private filterService: FilterService, private dialog: MatDialog) {  };
 
   ngOnInit() {
     this.createFilter();
@@ -27,36 +33,49 @@ export class TicketListComponent implements OnInit {
   }
 
   createFilter() {
-    this.airportList = new Array<Airport>(
-        new Airport(1, 'AEP', 'aeroparque', 'buenos aires', '', ''),
-        new Airport(2, 'EZE', 'ezeiza', 'buenos aires', '', ''),
-        new Airport(3, 'BRC', 'san carlos de bariloche', 'río negro', '', ''),
-        new Airport(4, 'CTC', 'catamarca', 'catamarca', '', '')
+    this.airportList = new Array<Airport>();
+    JSON.parse(localStorage.getItem('_airports')).forEach(item => {
+      this.airportList.push(
+          new Airport(item.id, item.code, item.description, item.state, item.state_code, item.address)
+      );
+    });
+  }
+
+  searchTicket() {
+    this.showSpinner();
+    const user_id = JSON.parse(sessionStorage.getItem('_logged-user')).id;
+    this.subscription.add( this.filterService.getById('filter/ticket', user_id).subscribe(
+        // @ts-ignore
+        value => this.mapperTickets(value.data))
     );
   }
 
-
-  searchTicket() {
-    console.log('Show :: ==> ');
+  mapperTickets(value) {
+    this.ticketList = new Array<Ticket>();
+    value.ticketList.forEach(item => {
+      this.ticketList.push(
+        new Ticket(item.id, item.user_id, item.passage_code, item.start_date, item.end_date, item.origin_place, item.destination_place,
+        item.price, item.payment_way, item.payment_way_company)
+      );
+    });
+    this.createTable();
+    this.hideSpinner();
   }
 
   createTable() {
-    this.ticketList = new Array<Ticket>(
-        new Ticket(1, 2, '6e7560de-6032-447d-8ca7-271237941065', '2019-09-15', '2019-10-15',
-            'Buenos Aires', 'Mendoza', 700, 1, 'VISA'),
-        new Ticket(1, 2, '6e7560de-6032-447d-8ca7-271237941065', '2019-09-15', '2019-10-15',
-            'Buenos Aires', 'Mendoza', 1500, 1, 'VISA'),
-        new Ticket(1, 2, '6e7560de-6032-447d-8ca7-271237941065', '2019-09-15', '2019-10-15',
-            'Buenos Aires', 'Mendoza', 800, 1, 'MasterCard'),
-        new Ticket(1, 2, '6e7560de-6032-447d-8ca7-271237941065', '2019-09-15', '2019-10-15',
-            'Buenos Aires', 'Mendoza', 1200, 1, 'VISA'),
-        new Ticket(1, 2, '6e7560de-6032-447d-8ca7-271237941065', '2019-09-15', '2019-10-15',
-            'Buenos Aires', 'Mendoza', 2000, 1, 'AmericanExpress'),
-        new Ticket(1, 2, '6e7560de-6032-447d-8ca7-271237941065', '2019-09-15', '2019-10-15',
-            'Buenos Aires', 'Mendoza', 100, 1, 'VISA')
-    );
     this.displayedColumns = new Array<string>(
         'ticketCode', 'startDate', 'endDate', 'origin', 'destination', 'payment', 'price', 'cancel'
     );
+  }
+
+  showSpinner() {
+    this.dialogRef = this.dialog.open(SpinnerComponent, {
+      panelClass: 'dialog-transparent',
+      disableClose: true
+    });
+  }
+
+  hideSpinner() {
+    this.dialogRef.close();
   }
 }

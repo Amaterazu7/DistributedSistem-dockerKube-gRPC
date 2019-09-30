@@ -25,10 +25,13 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
+    MatButtonToggleModule,
     MatTableModule,
     MatStepperModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule,
+    MatIconModule
 } from '@angular/material';
 
 @NgModule({
@@ -51,7 +54,10 @@ import {
         MatCarouselModule,
         MatCheckboxModule,
         MatRadioModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatButtonToggleModule,
+        MatTabsModule,
+        MatIconModule
     ],
     providers: [
         MatDatepickerModule,

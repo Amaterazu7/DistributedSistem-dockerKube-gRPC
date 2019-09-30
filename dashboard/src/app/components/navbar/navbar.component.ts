@@ -11,7 +11,8 @@ import { RouterModule, Routes, Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
     private listTitles: any[];
     location: Location;
-      mobile_menu_visible: any = 0;
+    showIt: boolean;
+    mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
 
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     ngOnInit() {
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
+      this.showIt = (sessionStorage.getItem('_logged-user')) ? true : false;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
       this.router.events.subscribe((event) => {
         this.sidebarClose();
@@ -124,7 +126,7 @@ export class NavbarComponent implements OnInit {
     }
 
     async logout() {
-        sessionStorage.removeItem('logged-user');
+        sessionStorage.removeItem('_logged-user');
         await this.router.navigate(['/log-in']);
         location.reload(true);
     }

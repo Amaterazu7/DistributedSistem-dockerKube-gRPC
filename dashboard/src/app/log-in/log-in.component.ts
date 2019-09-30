@@ -14,20 +14,18 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
 export class LogInComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   public dialogRef: MatDialogRef<SpinnerComponent>;
-  public login: Login;
+  public login: Login = new Login();
 
   constructor(public userService: UserService, private dialog: MatDialog, private router: Router) {  };
 
-  ngOnInit() {
-    this.login = new Login(null, null);
-  };
+  ngOnInit() {  };
 
   async logUser() {
     console.table(this.login);
     this.showSpinner();
     this.subscription.add( this.userService.validateLogin(this.login).subscribe(value => {
       console.log(value);
-      sessionStorage.setItem('logged-user', JSON.stringify(value.data));
+      sessionStorage.setItem('_logged-user', JSON.stringify(value.data));
       this.hideSpinner();
     } ) );
   };

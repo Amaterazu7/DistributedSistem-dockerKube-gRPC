@@ -20,9 +20,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(public userService: UserService, private dialog: MatDialog) {  };
 
   ngOnInit() {
-    this.mapperUser(JSON.parse(sessionStorage.getItem('logged-user')));
-    this.subscription.add(
-    );
+    this.mapperUser(JSON.parse(sessionStorage.getItem('_logged-user')));
+    this.subscription.add();
   };
 
   mapperUser(user: User) {
@@ -45,7 +44,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   hideSpinner(value) {
     console.log(value);
-    sessionStorage.setItem('logged-user', JSON.stringify(this.user));
+    sessionStorage.setItem('_logged-user', JSON.stringify(this.user));
     this.dialogRef.close();
   }
 

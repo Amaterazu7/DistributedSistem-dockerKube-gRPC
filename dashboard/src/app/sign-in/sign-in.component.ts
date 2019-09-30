@@ -14,14 +14,11 @@ import { SpinnerComponent } from '../components/spinner/spinner.component';
 export class SignInComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   public dialogRef: MatDialogRef<SpinnerComponent>;
-  public user: User;
+  public user: User = new User();
 
   constructor(public userService: UserService, private dialog: MatDialog, private router: Router) { };
 
-  ngOnInit() {
-    this.user = new User(5, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, true, false);
-  };
+  ngOnInit() {  };
 
   createUser() {
     console.table(this.user);

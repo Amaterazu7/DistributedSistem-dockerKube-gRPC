@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
+const filterRouter = require('./routes/filter');
 const userRouter = require('./routes/user');
 const ticketRouter = require('./routes/ticket');
 const paymentRouter = require('./routes/payment');
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/filter', filterRouter);
 app.use('/user', userRouter);
 app.use('/ticket', ticketRouter);
 app.use('/payment', paymentRouter);

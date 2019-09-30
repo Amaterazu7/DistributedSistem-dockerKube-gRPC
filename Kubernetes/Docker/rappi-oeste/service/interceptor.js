@@ -4,11 +4,12 @@ module.exports.response = (res, code, status, data, error = null) => {
     res.status(code).json({status: status, data: data, error: error});
 };
 
-module.exports.dbRequest = async (connection, sqlQuery, fields, message, length = false) => {
-    return await new Promise( (resolve, reject) => {
-        connection.query(sqlQuery, fields, async (error, results) => {
-            console.log(`${message} ${(length) ? results.length : results.affectedRows}`);
+module.exports.dbRequest = async (connection, sqlQuery, fields, message, showLength = false) => {
+    return await new Promise( async (resolve, reject) => {
+        await connection.query(sqlQuery, fields, (error, results) => {
+            // console.log(JSON.stringify(results));
+            // console.log(`${message} ${(showLength) ? results.length : results.affectedRows}`);
             return (error) ? reject(error) : resolve(results);
-        })
+        });
     });
 };
