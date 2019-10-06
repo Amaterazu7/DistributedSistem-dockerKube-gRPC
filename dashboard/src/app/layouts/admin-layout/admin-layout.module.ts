@@ -6,7 +6,7 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { HomeComponent } from '../../home/home.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
-import { TicketListComponent } from '../../ticket-list/ticket-list.component';
+import { TicketListComponent, DialogOverview } from '../../ticket-list/ticket-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
@@ -64,7 +64,7 @@ import {
         MatCarouselModule,
         MatTableModule
     ],
-    entryComponents: [SpinnerComponent],
+    entryComponents: [SpinnerComponent, DialogOverview],
     declarations: [
         HomeComponent,
         DashboardComponent,
@@ -76,6 +76,7 @@ import {
         NotificationsComponent,
         LogInComponent,
         SignInComponent,
+        DialogOverview,
         SpinnerComponent
     ]
 })

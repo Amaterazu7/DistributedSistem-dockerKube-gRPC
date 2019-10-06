@@ -9,21 +9,15 @@ export class Payment {
 }
 
 export class CreditCard {
+    companyName: string;
     expiration: string;
     number: string;
     code: string;
 
-    constructor(expiration: string = null, number: string = null, code: string = null) {
+    constructor(companyName: string = null, expiration: string = null, number: string = null, code: string = null) {
+        this.companyName = companyName;
         this.expiration = expiration;
         this.number = number;
         this.code = code;
-    }
-}
-
-export class CreditCardCompany {
-    companyName: string;
-
-    constructor(companyName: string = null) {
-        this.companyName = companyName;
     }
 }

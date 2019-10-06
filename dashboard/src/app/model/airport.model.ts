@@ -6,7 +6,8 @@ export class Airport {
     public state_code: string;
     public address: string;
 
-    public constructor(id: number, code: string, description: string, state: string, state_code: string, address: string) {
+    public constructor(id: number = null, code: string = null, description: string = null, state: string = null, state_code: string = null,
+                       address: string = null) {
         this.id = id;
         this.code =  code;
         this.description = description;

@@ -7,8 +7,7 @@ module.exports.response = (res, code, status, data, error = null) => {
 module.exports.dbRequest = async (connection, sqlQuery, fields, message, showLength = false) => {
     return await new Promise( async (resolve, reject) => {
         await connection.query(sqlQuery, fields, (error, results) => {
-            // console.log(JSON.stringify(results));
-            // console.log(`${message} ${(showLength) ? results.length : results.affectedRows}`);
+            // console.log(`${message} \n ${JSON.stringify(results)}`);
             return (error) ? reject(error) : resolve(results);
         });
     });

@@ -13,7 +13,7 @@
                           <div class="col-md-3">
                               <mat-form-field color="accent">
                                   <mat-label>From</mat-label>
-                                  <input matInput [matDatepicker]="picker1">
+                                  <input matInput [matDatepicker]="picker1" [(ngModel)]="dateFrom" [disabled]="byTicketCode">
                                   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                   <mat-datepicker #picker1></mat-datepicker>
                               </mat-form-field>
@@ -21,22 +21,32 @@
                           <div class="col-md-3">
                               <mat-form-field color="accent">
                                   <mat-label>To</mat-label>
-                                  <input matInput [matDatepicker]="picker2">
+                                  <input matInput [matDatepicker]="picker2" [(ngModel)]="dateTo" [disabled]="byTicketCode">
                                   <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                   <mat-datepicker #picker2></mat-datepicker>
                               </mat-form-field>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-1 checkbox-code" *ngIf="isRegisteredUser">
+                              <mat-checkbox name="ticketCode" [(ngModel)]="byTicketCode" color="warn">
+                              </mat-checkbox>
+                          </div>
+                          <div class="col-md-5" *ngIf="isRegisteredUser">
                               <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Ticket Code" type="code" name="ticketCode">
+                                  <input matInput placeholder="Ticket Code" type="code" name="ticketCode"
+                                         [disabled]="!byTicketCode" [(ngModel)]="ticketCode">
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="!isRegisteredUser">
+                              <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Ticket Code" type="code" name="ticketCode" [(ngModel)]="ticketCode">
                               </mat-form-field>
                           </div>
                       </div>
                       <div class="row">
                           <div class="col-md-6">
                               <mat-form-field>
-                                  <mat-label>Airport To</mat-label>
-                                  <mat-select>
+                                  <mat-label>Airport From</mat-label>
+                                  <mat-select [(ngModel)]="airportFrom" [disabled]="byTicketCode">
                                       <mat-option></mat-option>
                                       <mat-option *ngFor="let airport of airportList" [value]="airport">
                                           {{airport.code}} - {{airport.description}}
@@ -46,8 +56,8 @@
                           </div>
                           <div class="col-md-6">
                               <mat-form-field>
-                                  <mat-label>Airport From</mat-label>
-                                  <mat-select>
+                                  <mat-label>Airport To</mat-label>
+                                  <mat-select [(ngModel)]="airportTo" [disabled]="byTicketCode">
                                       <mat-option></mat-option>
                                       <mat-option *ngFor="let airport of airportList" [value]="airport">
                                           {{airport.code}} - {{airport.description}}
@@ -71,38 +81,31 @@
                       <p class="card-category">Here you can show everything related with your tickets</p>
                   </div>
                   <div class="card-body">
-                      <table mat-table class="table table-hover transparent" [dataSource]="ticketList">
+                      <table mat-table class="table table-hover transparent" [dataSource]="ticketList" *ngIf="ticketList">
 
-                          <ng-container matColumnDef="ticketCode">
-                              <th mat-header-cell *matHeaderCellDef> Ticket Code </th>
-                              <td mat-cell *matCellDef="let element"> {{element.passage_code}} </td>
+                          <ng-container matColumnDef="goingDate">
+                              <th mat-header-cell *matHeaderCellDef> Going Date </th>
+                              <td mat-cell *matCellDef="let element"> {{element.flight_date | date}} </td>
                           </ng-container>
 
-                          <ng-container matColumnDef="startDate">
-                              <th mat-header-cell *matHeaderCellDef> Start Date </th>
-                              <td mat-cell *matCellDef="let element"> {{element.start_date | date}} </td>
+                          <ng-container matColumnDef="airportFrom">
+                              <th mat-header-cell *matHeaderCellDef> Airport From </th>
+                              <td mat-cell *matCellDef="let element"> {{element.airport_code_from}} </td>
                           </ng-container>
 
-                          <ng-container matColumnDef="endDate">
-                              <th mat-header-cell *matHeaderCellDef> End Date </th>
-                              <td mat-cell *matCellDef="let element"> {{element.end_date | date}} </td>
+                          <ng-container matColumnDef="airportTo">
+                              <th mat-header-cell *matHeaderCellDef> Airport To </th>
+                              <td mat-cell *matCellDef="let element"> {{element.airport_code_to}} </td>
                           </ng-container>
 
-                          <ng-container matColumnDef="origin">
-                              <th mat-header-cell *matHeaderCellDef> Origin </th>
-                              <td mat-cell *matCellDef="let element"> {{element.origin_place}} </td>
+                          <ng-container matColumnDef="takeOfTime">
+                              <th mat-header-cell *matHeaderCellDef> Take off Time </th>
+                              <td mat-cell *matCellDef="let element"> {{element.flight_date | date: 'HH:mm'}}hs </td>
                           </ng-container>
 
-                          <ng-container matColumnDef="destination">
-                              <th mat-header-cell *matHeaderCellDef> Destination </th>
-                              <td mat-cell *matCellDef="let element"> {{element.destination_place}} </td>
-                          </ng-container>
-
-                          <ng-container matColumnDef="payment">
-                              <th mat-header-cell *matHeaderCellDef> Payment Method </th>
-                              <td mat-cell *matCellDef="let element">
-                                  {{element.payment_way}} / {{element.payment_way_company}}
-                              </td>
+                          <ng-container matColumnDef="arrivalTime">
+                              <th mat-header-cell *matHeaderCellDef> Arrival Time </th>
+                              <td mat-cell *matCellDef="let element"> {{element.end_time | date: 'HH:mm'}}hs </td>
                           </ng-container>
 
                           <ng-container matColumnDef="price">
@@ -113,13 +116,14 @@
                           <ng-container matColumnDef="cancel">
                               <th mat-header-cell *matHeaderCellDef> </th>
                               <td mat-cell *matCellDef="let element" class="td-actions text-right">
-                                  <button mat-raised-button type="button" matTooltip="Cancel"
-                                          [matTooltipPosition]="'below'"
+                                  <button mat-raised-button type="button" matTooltip="Take"
+                                          [matTooltipPosition]="'below'" (click)="openDialog(element)"
                                           class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                      <i class="material-icons">close</i>
+                                      <i class="material-icons">{{ 'close' }}</i>
                                   </button>
                               </td>
                           </ng-container>
+
                           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                       </table>

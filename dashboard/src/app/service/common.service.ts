@@ -62,4 +62,11 @@ export class CommonService {
         return temporaryAccessSubjectArray.asObservable();
     }
 
+    public setEndFlight(date: Date, time) {
+        let endFlight = new Date(date);
+        const minutes = Number(time.toString().substring(2, 4));
+        endFlight = new Date(endFlight.setHours(endFlight.getHours() + time, endFlight.getMinutes() + minutes));
+        return endFlight.toISOString();
+    }
+
 }

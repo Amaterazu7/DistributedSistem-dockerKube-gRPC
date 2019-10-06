@@ -1,22 +1,56 @@
 const express = require('express');
 const router = express.Router();
+const uuidv4 = require('uuid/v4');
 const filterRepository = require('../repository/filterRepository');
+const userRepository = require('../repository/userRepository');
 const interceptor = require('../service/interceptor');
 
 router.get('/airport', async (req, res, next) => {
     let sqlResult = await filterRepository.getAllAirport(res);
-    interceptor.response(res, 200, 'SUCCESS', {airportList: sqlResult});
+    interceptor.response(res, 200, 'SUCCESS', {airportList: sqlResult[0]});
 });
 
-router.get('/ticket/:user_id', async (req, res, next) => {
-    let sqlResult = await filterRepository.getTicketByUser(res, req.params.user_id);
+router.get('/ticket/:code', async (req, res, next) => {
+    let sqlResult = await filterRepository.getTicketByCode(res, req.params.code);
     interceptor.response(res, 200, 'SUCCESS', {ticketList: sqlResult});
 });
 
+router.post('/ticketByFilter', async (req, res, next) => {
+    let sqlResult = await filterRepository.getTicketByUser(res, req.body);
+    interceptor.response(res, 200, 'SUCCESS', {ticketList: sqlResult});
+});
+
+router.post('/ticket', async (req, res, next) => {
+    let { flightList, user, payment, creditCard } = req.body;
+    let correlation_id = uuidv4();
+
+    if (user.registered === false) { user.id = await userRepository.saveUser(res, user); }
+    for(let i = 0; i < flightList.length; i++) {
+        await filterRepository.saveTicketByCash(res, user, payment.id, creditCard.companyName, flightList[i], correlation_id)
+    }
+    interceptor.response(res, 200, 'SUCCESS', {code: correlation_id});
+});
+
+router.post('/ticketByMiles', async (req, res, next) => {
+    let { flightList, user, payment, creditCard } = req.body;
+    let correlation_id = uuidv4();
+
+    for(let i = 0; i < flightList.length; i++) {
+        // await filterRepository.saveTicketByCash(res, user, payment.id, creditCard.companyName, flightList[i], correlation_id)
+    }
+
+    interceptor.response(res, 200, 'SUCCESS', {code: correlation_id});
+});
+
 router.post('/flight', async (req, res, next) => {
-    console.log(JSON.stringify(req.body));
     let sqlResult = await filterRepository.getFlightByFilters(res, req.body);
-    interceptor.response(res, 200, 'SUCCESS', {flightList: sqlResult});
+    interceptor.response(res, 200, 'SUCCESS',
+        {flightStartList: sqlResult.going, flightEndList: sqlResult.returning});
+});
+
+router.put('/cancel', async (req, res, next) => {
+    let sqlResult = await filterRepository.cancelTicket(res, req.body);
+    interceptor.response(res, 200, 'SUCCESS', {cancelRes: sqlResult});
 });
 
 

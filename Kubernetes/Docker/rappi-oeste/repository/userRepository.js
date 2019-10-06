@@ -1,44 +1,53 @@
 const uuidv4 = require('uuid/v4');
+const configLoader = require('../config/configLoader');
 const interceptor = require('../service/interceptor');
 
-module.exports.saveUser = async (conn, res, user) => {
-    let buff = Buffer.from(user.password);
-    let base64data = buff.toString('base64');
-    let fields = [
-        uuidv4(),
-        user.dni_passport,
-        user.user_name,
-        base64data,
-        user.name,
-        user.surname,
-        user.email,
-        user.phone,
-        user.address,
-        user.city,
-        user.country,
-        user.nationality,
-        user.about,
-        user.miles,
-        user.registered
-    ];
-    let query = `INSERT INTO user (id, dni_passport, user_name, password, name, surname, email, phone, address, city, 
-                           country, nationality, about, miles, registered) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ;`;
+module.exports.saveUser = async (res, user) => {
+    let conn;
+    try {
+        conn = await configLoader.getMySQL_connection();
+        await conn.connect();
 
-    let results = await interceptor.dbRequest(conn, query, fields, `The affectedRows are :::`, false);
-    interceptor.response(res, 200, 'SUCCESS', results);
+        const user_uuidv4 = uuidv4();
+        let buff = (user.registered) ? Buffer.from(user.password) : null;
+        let base64data = (user.registered) ? buff.toString('base64') : null;
+        let fields = [
+            user_uuidv4,
+            user.dni_passport,
+            user.user_name,
+            base64data,
+            user.name,
+            user.surname,
+            user.email,
+            user.phone,
+            user.address,
+            user.city,
+            user.country,
+            user.nationality,
+            user.about,
+            user.registered
+        ];
+        let query = `CALL create_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); `;
+
+        await interceptor.dbRequest(conn, query, fields, `The affectedRows are :::`, false);
+        return user_uuidv4;
+    } catch (err) {
+        interceptor.response(res, 500, 'INSERT FAILED', {}, err);
+    } finally {
+        conn.end();
+    }
 };
 
 module.exports.updateUser = (conn, res, user) => {
     let {id, dni_passport, user_name, password, name, surname, email, phone,
-        address, city, country, nationality, about, miles, registered} = user;
+        address, city, country, nationality, about, registered} = user;
     let buff = Buffer.from(password);
     let base64data = (user.change_pass) ? buff.toString('base64') : password;
     let fields = [dni_passport, user_name, base64data, name, surname, email, phone, address,
-        city, country, nationality, about, miles, registered, id];
+        city, country, nationality, about, registered, id];
 
     conn.query(`UPDATE user SET dni_passport = ?, user_name = ?, password = ?, name = ?, surname = ?, email = ?, phone = ?, address = ?,
-    city = ?, country = ?, nationality = ?, about = ?, miles = ?, registered = ? WHERE id = ? ;`, fields, (error, results) => {
+    city = ?, country = ?, nationality = ?, about = ?, registered = ? WHERE id = ? ;`, fields, (error, results) => {
         if (error) throw error;
         console.log(`The result count is ::: ${results.affectedRows}`);
 
@@ -62,6 +71,24 @@ module.exports.getUser = (conn, res, id) => {
 
         interceptor.response(res, 200, 'SUCCESS', results[0]);
     });
+};
+
+module.exports.getUserMiles = async (res, id) => {
+    let conn;
+    try {
+        conn = await configLoader.getMySQL_connection();
+        await conn.connect();
+
+        let field = [ id ];
+        let query = `CALL get_miles_by_id(?); `;
+
+        return await interceptor.dbRequest(conn, query, field, `The result count is :::`, true);
+
+    } catch (err) {
+        interceptor.response(res, 500, 'SELECT MILES FAILED', {}, err);
+    } finally {
+        conn.end();
+    }
 };
 
 module.exports.findAllUsers = (conn, res) => {

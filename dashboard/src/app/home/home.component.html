@@ -45,7 +45,7 @@
                       <mat-select formControlName="airportFrom" required>
                         <mat-option></mat-option>
                         <mat-option *ngFor="let airportFrom of airportList" [value]="airportFrom">
-                          {{airportFrom.code}} - {{airportFrom.description}}
+                          {{airportFrom.code}} - {{airportFrom.description}}, {{airportFrom.state}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -56,7 +56,7 @@
                       <mat-select formControlName="airportTo" required>
                         <mat-option></mat-option>
                         <mat-option *ngFor="let airportTo of airportList" [value]="airportTo">
-                          {{airportTo.code}} - {{airportTo.description}}
+                          {{airportTo.code}} - {{airportTo.description}}, {{airportTo.state}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -130,21 +130,21 @@
                 <ng-template matStepLabel>Take your flight</ng-template>
                 <mat-tab-group mat-align-tabs="end">
                   <mat-tab label="Going">
-                    <table mat-table class="table table-hover transparent-back" [dataSource]="flightList" *ngIf="flightList">
+                    <table mat-table class="table table-hover transparent-back" [dataSource]="flightStartList" *ngIf="flightStartList">
 
-                      <ng-container matColumnDef="startDate">
-                        <th mat-header-cell *matHeaderCellDef> Start Date </th>
-                        <td mat-cell *matCellDef="let element"> {{element.start_date | date}} </td>
+                      <ng-container matColumnDef="goingDate">
+                        <th mat-header-cell *matHeaderCellDef> Going Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.flight_date | date}} </td>
                       </ng-container>
 
                       <ng-container matColumnDef="takeOfTime">
                         <th mat-header-cell *matHeaderCellDef> Take off Time </th>
-                        <td mat-cell *matCellDef="let element"> {{element.start_date | date: 'HH:mm'}}hs </td>
+                        <td mat-cell *matCellDef="let element"> {{element.flight_date | date: 'HH:mm'}}hs </td>
                       </ng-container>
 
                       <ng-container matColumnDef="arrivalTime">
                         <th mat-header-cell *matHeaderCellDef> Arrival Time </th>
-                        <td mat-cell *matCellDef="let element"> {{element.start_time | date: 'HH:mm'}}hs </td>
+                        <td mat-cell *matCellDef="let element"> {{element.end_time | date: 'HH:mm'}}hs </td>
                       </ng-container>
 
                       <ng-container matColumnDef="price">
@@ -168,16 +168,16 @@
                     </table>
                   </mat-tab>
                   <mat-tab label="Return">
-                    <table mat-table class="table table-hover transparent-back" [dataSource]="flightList" *ngIf="flightList">
+                    <table mat-table class="table table-hover transparent-back" [dataSource]="flightEndList" *ngIf="flightEndList">
 
-                      <ng-container matColumnDef="endDate">
-                        <th mat-header-cell *matHeaderCellDef> End Date </th>
-                        <td mat-cell *matCellDef="let element"> {{element.end_date | date}} </td>
+                      <ng-container matColumnDef="returnDate">
+                        <th mat-header-cell *matHeaderCellDef> Return Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.flight_date | date}} </td>
                       </ng-container>
 
                       <ng-container matColumnDef="takeOfTime">
                         <th mat-header-cell *matHeaderCellDef> Take off Time </th>
-                        <td mat-cell *matCellDef="let element"> {{element.end_date | date: 'HH:mm'}}hs </td>
+                        <td mat-cell *matCellDef="let element"> {{element.flight_date | date: 'HH:mm'}}hs </td>
                       </ng-container>
 
                       <ng-container matColumnDef="arrivalTime">
@@ -236,18 +236,18 @@
                   <div class="col-md-4">
                     <mat-form-field class="example-full-width" appearance="fill">
                       <mat-label>Credit Card Number</mat-label>
-                      <input required matInput placeholder="4503 3425 2366 9857" type="number" name="paymentNumber"
-                             [(ngModel)]="creditCard.number">
+                      <input required [disabled]="filter.payWithMiles" matInput placeholder="4503 3425 2366 9857" type="number"
+                             name="paymentNumber" [(ngModel)]="creditCard.number">
                       <mat-icon matSuffix>credit_card</mat-icon>
                     </mat-form-field>
                   </div>
                   <div class="col-md-2">
                     <mat-form-field>
                       <mat-label>Credit Card Company</mat-label>
-                      <mat-select>
+                      <mat-select required [disabled]="filter.payWithMiles" [(value)]="creditCard.companyName">
                         <mat-option></mat-option>
-                        <mat-option *ngFor="let creditCard of creditCardCompanyList" [value]="creditCard.companyName">
-                          {{creditCard.companyName}}
+                        <mat-option *ngFor="let cc of creditCardCompanyList" [value]="cc">
+                          {{cc}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -271,30 +271,40 @@
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width" appearance="fill">
                       <mat-label>Expiration Date</mat-label>
-                      <input required matInput placeholder="MM/YYYY" type="tel" name="paymentExpiration" [(ngModel)]="creditCard.expiration">
+                      <input required [disabled]="filter.payWithMiles" matInput placeholder="MM/YYYY" type="tel" name="paymentExpiration"
+                             [(ngModel)]="creditCard.expiration">
                       <mat-icon matSuffix>credit_card</mat-icon>
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width" appearance="fill">
                       <mat-label>Secure Code</mat-label>
-                      <input required matInput placeholder="* * *" type="number" name="paymentSecure" [(ngModel)]="creditCard.code">
+                      <input required [disabled]="filter.payWithMiles" matInput placeholder="* * *" type="number" name="paymentSecure"
+                             [(ngModel)]="creditCard.code">
                       <mat-icon matSuffix>credit_card</mat-icon>
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-2">
                     <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Email address</mat-label>
-                      <input required matInput placeholder="Email address" type="email" name="email" [(ngModel)]="user.email">
+                      <mat-label>Nationality</mat-label>
+                      <input required matInput placeholder="Argentinian" type="nationality" name="text" [(ngModel)]="user.nationality">
                       <mat-icon matSuffix>mail_outline</mat-icon>
                     </mat-form-field>
                   </div>
                   <div class="col-md-4">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Email address</mat-label>
+                      <input required matInput placeholder="Email address" type="email" name="email" [(ngModel)]="user.email">
+                      <mat-icon matSuffix>public</mat-icon>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
                     <mat-form-field class="example-full-width" appearance="fill">
-                      <mat-label>Amount</mat-label>
-                      <input matInput class="example-right-align" value="{{totalAmount | currency}}" disabled style="color: #000;">
+                      <mat-label>{{(filter.payWithMiles) ? 'Miles' : 'Amount'}}</mat-label>
+                      <input matInput class="example-right-align"
+                             value="{{(filter.payWithMiles) ? (totalAmount*3 | number)+' M' : (totalAmount | currency)}}" disabled style="color: #000;">
                     </mat-form-field>
                   </div>
                   <div class="col-md-2 icon-align">
@@ -303,7 +313,7 @@
                   </div>
                 </div>
               </form>
-              <button mat-raised-button matStepperNext class="btn btn-danger pull-right" (click)="searchFlights()">Buy Ticket Now</button>
+              <button mat-raised-button matStepperNext class="btn btn-danger pull-right" (click)="generateTicket()">Buy Ticket Now</button>
               <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>

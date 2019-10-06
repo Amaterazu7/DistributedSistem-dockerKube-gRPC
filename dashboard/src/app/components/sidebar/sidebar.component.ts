@@ -23,7 +23,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/home', title: 'Home',  icon: 'home', class: '' },
     (validateSession() && adminSession()) ? { path: '/dashboard', title: 'Admin Dashboard',  icon: 'dashboard', class: '' } : null,
     (validateSession()) ? { path: '/user-profile', title: 'User Profile',  icon: 'person', class: '' } : null,
-    (validateSession()) ? { path: '/ticket-list', title: 'Ticket List',  icon: 'content_paste', class: '' } : null,
+    // (validateSession()) ? { path: '/ticket-list', title: 'Ticket List',  icon: 'content_paste', class: '' } : null,
+    {path: '/ticket-list', title: 'Ticket List',  icon: 'content_paste', class: '' },
     (validateSession()) ? null : { path: '/log-in', title: 'LogIn',  icon: 'fingerprint', class: 'log-in' },
     (validateSession()) ? null : { path: '/sign-in', title: 'Sign In',  icon: 'account_circle', class: 'sign-in' }
 ];

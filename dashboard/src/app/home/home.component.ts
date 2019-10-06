@@ -9,9 +9,8 @@ import { Airport } from '../model/airport.model';
 import { Flight } from '../model/flight.model';
 import { User } from '../model/user.model';
 import { Filter } from '../model/filter.model';
-import { Ticket } from '../model/ticket.model';
-import { CreditCardCompany, Payment, CreditCard } from '../model/payment.model';
-// import {FormBuilder} from '../../assets/img/jamaica.jpg';
+import { Payment, CreditCard } from '../model/payment.model';
+import { BuyerRequest } from '../model/buyerRequest.model';
 
 @Component({
   selector: 'app-home',
@@ -32,8 +31,9 @@ export class HomeComponent implements OnInit {
   cabinList: Array<string>;
   displayedStartColumns: Array<string>;
   displayedEndColumns: Array<string>;
-  creditCardCompanyList: Array<CreditCardCompany>;
-  flightList: Array<Flight>;
+  creditCardCompanyList: Array<String>;
+  flightStartList: Array<Flight>;
+  flightEndList: Array<Flight>;
   airportList: Array<Airport>;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -66,18 +66,13 @@ export class HomeComponent implements OnInit {
       {image: '../../assets/img/friends.jpg'},
       {image: '../../assets/img/brc.jpg'}
     ];
-    this.creditCardCompanyList = new Array<CreditCardCompany>(
-        new CreditCardCompany('VISA'),
-        new CreditCardCompany('MasterCard'),
-        new CreditCardCompany('American Express')
-    );
-
+    this.creditCardCompanyList = new Array<string>('VISA', 'MasterCard', 'American Express');
   }
 
   createFilter() {
     this.cabinList = new Array<string>('Economy', 'Premium Economy', 'Business', 'Premium Business');
-    if (!localStorage.getItem('_airports')) {
-      this.createAirport(JSON.parse(localStorage.getItem('_airports')));
+    if (localStorage.getItem('_airports')) {
+      this.createAirport({airportList: JSON.parse(localStorage.getItem('_airports'))} );
     } else {
       this.subscription.add(this.filterService.getAll('filter/airport').subscribe(
           // @ts-ignore
@@ -107,23 +102,28 @@ export class HomeComponent implements OnInit {
   }
 
   setRegisteredUser() {
-    if (sessionStorage.getItem('_logged-user')) {
-      this.user = JSON.parse(sessionStorage.getItem('_logged-user'));
-    }
+    if (sessionStorage.getItem('_logged-user')) { this.user = JSON.parse(sessionStorage.getItem('_logged-user')); }
   }
 
   createTable(value) {
-    this.flightList = new Array<Flight>();
-    value.flightList.forEach(item => {
-      this.flightList.push(
-          new Flight(item.id, item.available_economy, item.available_economy_premium, item.available_business,
-              item.available_business_premium, item.start_date, item.end_date, this.setEndFlight(item.start_date, item.time),
-              this.setEndFlight(item.end_date, item.time), item.price)
+    this.flightStartList = new Array<Flight>();
+    value.flightStartList.forEach(item => {
+      this.flightStartList.push(
+          new Flight(item.id,  item.airport_code_from, item.airport_code_to, item.available_economy, item.available_economy_premium,
+              item.available_business, item.available_business_premium, item.flight_date,
+              this.filterService.setEndFlight(item.flight_date, item.time), item.price)
       );
     });
-    console.log(this.flightList);
-    this.displayedStartColumns = new Array<string>('startDate', 'takeOfTime', 'arrivalTime', 'price', 'edit');
-    this.displayedEndColumns = new Array<string>('endDate', 'takeOfTime', 'arrivalTime', 'price', 'edit');
+    this.flightEndList = new Array<Flight>();
+    value.flightEndList.forEach(item => {
+      this.flightEndList.push(
+          new Flight(item.id, item.airport_code_from, item.airport_code_to, item.available_economy, item.available_economy_premium,
+              item.available_business, item.available_business_premium, item.flight_date,
+              this.filterService.setEndFlight(item.flight_date, item.time), item.price)
+      );
+    });
+    this.displayedStartColumns = new Array<string>('goingDate', 'takeOfTime', 'arrivalTime', 'price', 'edit');
+    this.displayedEndColumns = new Array<string>('returnDate', 'takeOfTime', 'arrivalTime', 'price', 'edit');
     this.hideSpinner();
   }
 
@@ -145,22 +145,16 @@ export class HomeComponent implements OnInit {
     this.goingFlight = flight;
   }
 
-  public selectReturn(flight: Flight) {
-    this.returnFlight = flight;
-  }
+  public selectReturn(flight: Flight) { this.returnFlight = flight; }
 
-  public lastStep() {
-    this.totalAmount = this.goingFlight.price + this.returnFlight.price;
-  }
+  public lastStep() { this.totalAmount = this.goingFlight.price + this.returnFlight.price; }
+
   private generateTicket() {
-    // const ticket = new Ticket();
-  }
+    const flightList = new Array<string>( this.goingFlight.id, this.returnFlight.id );
+    const payment = (this.filter.payWithMiles) ? new Payment(4, 'miles') : new Payment(3, 'credit card');
+    const buyerRequest = new BuyerRequest(this.user, flightList, payment, this.creditCard, this.filter.payWithMiles);
 
-  private setEndFlight(date: Date, time) {
-    let endFlight = new Date(date);
-    const minutes = Number(time.toString().substring(2, 4));
-    endFlight = new Date(endFlight.setHours(endFlight.getHours() + time, endFlight.getMinutes() + minutes));
-    return endFlight.toISOString();
+    this.filterService.save('filter/ticket', buyerRequest);
   }
 
   private parserFilter() {
