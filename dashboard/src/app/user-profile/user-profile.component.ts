@@ -21,7 +21,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.mapperUser(JSON.parse(sessionStorage.getItem('_logged-user')));
-    this.subscription.add();
+    this.subscription.add( this.userService.getById(`${this.controllerName}/miles`, this.user.id).subscribe(
+        value => {
+          this.user.miles = value.data.userMiles;
+        }) );
   };
 
   mapperUser(user: User) {
