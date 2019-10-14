@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
-import { HomeComponent } from '../../home/home.component';
+import { HomeComponent, SafePipe, DialogSuccess } from '../../home/home.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { TicketListComponent, DialogOverview } from '../../ticket-list/ticket-list.component';
@@ -17,6 +17,7 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import {
     MatButtonModule,
+    MatDividerModule,
     MatInputModule,
     MatRippleModule,
     MatFormFieldModule,
@@ -31,7 +32,8 @@ import {
     MatCheckboxModule,
     MatRadioModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatToolbarModule
 } from '@angular/material';
 
 @NgModule({
@@ -57,14 +59,16 @@ import {
         MatProgressSpinnerModule,
         MatButtonToggleModule,
         MatTabsModule,
-        MatIconModule
+        MatIconModule,
+        MatDividerModule,
+        MatToolbarModule
     ],
     providers: [
         MatDatepickerModule,
         MatCarouselModule,
         MatTableModule
     ],
-    entryComponents: [SpinnerComponent, DialogOverview],
+    entryComponents: [SpinnerComponent, DialogOverview, DialogSuccess],
     declarations: [
         HomeComponent,
         DashboardComponent,
@@ -77,7 +81,9 @@ import {
         LogInComponent,
         SignInComponent,
         DialogOverview,
-        SpinnerComponent
+        DialogSuccess,
+        SpinnerComponent,
+        SafePipe
     ]
 })
 

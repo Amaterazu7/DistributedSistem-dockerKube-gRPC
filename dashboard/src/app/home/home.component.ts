@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer} from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../service/filter.service';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
@@ -11,13 +13,22 @@ import { User } from '../model/user.model';
 import { Filter } from '../model/filter.model';
 import { Payment, CreditCard } from '../model/payment.model';
 import { BuyerRequest } from '../model/buyerRequest.model';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {}
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   public dialogRef: MatDialogRef<SpinnerComponent>;
   public slides: [{ image: string }, { image: string }, { image: string }, { image: string }, { image: string }];
@@ -25,6 +36,8 @@ export class HomeComponent implements OnInit {
   totalAmount = 0;
   goingFlight: Flight = new Flight();
   returnFlight: Flight = new Flight();
+  airportTo: Airport = new Airport();
+  airportFrom: Airport = new Airport();
   user: User = new User();
   filter: Filter = new Filter();
   creditCard: CreditCard = new CreditCard();
@@ -37,13 +50,14 @@ export class HomeComponent implements OnInit {
   airportList: Array<Airport>;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  loggedUser: boolean;
 
   constructor(private filterService: FilterService, private _formBuilder: FormBuilder,
-              private dialog: MatDialog, private router: Router) {
-  }
+              private dialog: MatDialog, private router: Router) {  }
 
   ngOnInit() {
     this.filter.passengers = 1;
+    this.loggedUser = (!sessionStorage.getItem('_logged-user'));
     this.createSlides();
     this.firstFormGroup = this._formBuilder.group({
       airportFrom: ['', Validators.required],
@@ -106,6 +120,7 @@ export class HomeComponent implements OnInit {
   }
 
   createTable(value) {
+    this.totalAmount = 0; this.goingFlight = new Flight(); this.returnFlight = new Flight();
     this.flightStartList = new Array<Flight>();
     value.flightStartList.forEach(item => {
       this.flightStartList.push(
@@ -149,12 +164,37 @@ export class HomeComponent implements OnInit {
 
   public lastStep() { this.totalAmount = this.goingFlight.price + this.returnFlight.price; }
 
+  disabledBuyerBTN() {
+    let canBuy = true;
+    let userUnLogged = true;
+    if (!this.filter.payWithMiles) { canBuy = (!!this.creditCard.code && !!this.creditCard.companyName); }
+    if (!this.user.id) {
+      userUnLogged = (!!this.user.dni_passport && !!this.user.phone && !!this.user.nationality && !!this.user.email);
+    }
+    return !(this.totalAmount !== 0 && !!this.goingFlight.id && !!this.returnFlight.id && userUnLogged && canBuy);
+  }
+
   private generateTicket() {
     const flightList = new Array<string>( this.goingFlight.id, this.returnFlight.id );
-    const payment = (this.filter.payWithMiles) ? new Payment(4, 'miles') : new Payment(3, 'credit card');
-    const buyerRequest = new BuyerRequest(this.user, flightList, payment, this.creditCard, this.filter.payWithMiles);
-
-    this.filterService.save('filter/ticket', buyerRequest);
+    const payment = (this.filter.payWithMiles) ? new Payment(4, 'rappiOesteMiles') : new Payment(3, 'credit card');
+    const buyerRequest = new BuyerRequest(this.user, flightList, payment, this.creditCard);
+    const saveTicketCTRL = (this.filter.payWithMiles) ? 'filter/ticketByMiles' : 'filter/ticket' ;
+    this.showSpinner();
+    this.subscription.add( this.filterService.save(saveTicketCTRL, buyerRequest).subscribe( data => this.resolveDate(data) )
+    );
+  }
+  private resolveDate(response) {// {"status":"SUCCESS","data":{"code":"b71a4097-e515-4641-a2fa-91138b667498"},"error":null}
+    this.hideSpinner();
+    if (response.status === 'SUCCESS') {
+      console.log(`:: results code :: >> ${response.data.code}`);
+      const dialogSuccess = this.dialog.open(DialogSuccess, {
+        width: '1076px',
+        data: response.data.code
+      });
+      dialogSuccess.afterClosed().subscribe(result => console.log(result) );
+    } else {
+      console.log(`:: ERROR :: >> ${response}`);
+    }
   }
 
   private parserFilter() {
@@ -181,5 +221,23 @@ export class HomeComponent implements OnInit {
 
   private hideSpinner() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}
+@Component({
+  selector: 'app-dialog-success',
+  templateUrl: 'dialog-success.html',
+})
+// tslint:disable-next-line:component-class-suffix
+export class DialogSuccess {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string, public dialogRef: MatDialogRef<DialogSuccess>) {  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+    location.reload(true);
   }
 }

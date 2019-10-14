@@ -26,20 +26,27 @@ router.post('/ticket', async (req, res, next) => {
 
     if (user.registered === false) { user.id = await userRepository.saveUser(res, user); }
     for(let i = 0; i < flightList.length; i++) {
-        await filterRepository.saveTicketByCash(res, user, payment.id, creditCard.companyName, flightList[i], correlation_id)
+        await filterRepository.saveTicket(res, user, payment.id, creditCard.companyName, flightList[i], correlation_id)
     }
+
     interceptor.response(res, 200, 'SUCCESS', {code: correlation_id});
 });
 
 router.post('/ticketByMiles', async (req, res, next) => {
-    let { flightList, user, payment, creditCard } = req.body;
+    let { flightList, user, payment } = req.body;
     let correlation_id = uuidv4();
+    let availableMiles = await filterRepository.checkAvailableMiles(res, user, flightList);
 
-    for(let i = 0; i < flightList.length; i++) {
-        // await filterRepository.saveTicketByCash(res, user, payment.id, creditCard.companyName, flightList[i], correlation_id)
+    if (availableMiles) {
+        for(let i = 0; i < flightList.length; i++) {
+            await filterRepository.saveTicket(res, user, payment.id, payment.description, flightList[i], correlation_id)
+        }
+        // CREATE A CONSUMPTION OF MILES BY CORRELATION_ID, PRICE AND MILES_RELATIONSHIP
+        interceptor.response(res, 200, 'SUCCESS', {availableMiles: availableMiles, code: correlation_id});
+
+    } else {
+        interceptor.response(res, 200, 'SUCCESS', {availableMiles: availableMiles, message: `Don't have enough Miles`});
     }
-
-    interceptor.response(res, 200, 'SUCCESS', {code: correlation_id});
 });
 
 router.post('/flight', async (req, res, next) => {

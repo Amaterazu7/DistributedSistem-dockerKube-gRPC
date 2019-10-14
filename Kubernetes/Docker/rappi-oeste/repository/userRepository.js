@@ -38,21 +38,28 @@ module.exports.saveUser = async (res, user) => {
     }
 };
 
-module.exports.updateUser = (conn, res, user) => {
+module.exports.updateUser = async (res, user) => {
     let {id, dni_passport, user_name, password, name, surname, email, phone,
         address, city, country, nationality, about, registered} = user;
-    let buff = Buffer.from(password);
-    let base64data = (user.change_pass) ? buff.toString('base64') : password;
-    let fields = [dni_passport, user_name, base64data, name, surname, email, phone, address,
-        city, country, nationality, about, registered, id];
+    let conn;
+    try {
+        conn = await configLoader.getMySQL_connection();
+        await conn.connect();
 
-    conn.query(`UPDATE user SET dni_passport = ?, user_name = ?, password = ?, name = ?, surname = ?, email = ?, phone = ?, address = ?,
-    city = ?, country = ?, nationality = ?, about = ?, registered = ? WHERE id = ? ;`, fields, (error, results) => {
-        if (error) throw error;
-        console.log(`The result count is ::: ${results.affectedRows}`);
+        let buff = Buffer.from(password);
+        let base64data = (user.change_pass) ? buff.toString('base64') : password;
 
-        interceptor.response(res, 200, 'SUCCESS', results);
-    });
+        let fields = [dni_passport, user_name, base64data, name, surname, email, phone, address,
+            city, country, nationality, about, registered, id];
+
+        let query = `CALL update_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); `;
+
+        return await interceptor.dbRequest(conn, query, fields, `The affectedRows are :::`, false);
+    } catch (err) {
+        interceptor.response(res, 500, 'INSERT FAILED', {}, err);
+    } finally {
+        conn.end();
+    }
 };
 
 module.exports.deleteUser = (conn, res, id) => {

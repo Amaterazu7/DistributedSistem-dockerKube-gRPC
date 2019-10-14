@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Thanks for traveling with RappiOeste airlines</h1>
+<div mat-dialog-content>
+    <mat-toolbar>
+        <mat-toolbar-row>
+            <span>Here you have you travel code: << {{data}} >></span>
+            <span class="example-spacer"></span>
+            <mat-icon class="example-icon" aria-hidden="false" aria-label="Ticket">favorite</mat-icon>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="onNoClick()" cdkFocusInitial type="submit" class="btn btn-danger pull-right" style="margin-top: 40px;">
+        Okay, thanks!
+    </button>
+</div>

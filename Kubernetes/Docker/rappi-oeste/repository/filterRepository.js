@@ -57,7 +57,7 @@ module.exports.getTicketByUser = async (res, request) => {
     }
 };
 
-module.exports.saveTicketByCash = async (res, user, payment, companyName, flight_id, correlation_id) => {
+module.exports.saveTicket = async (res, user, payment, companyName, flight_id, correlation_id) => {
     let {id, registered} = user;
     let season_version = 1;
     let conn;
@@ -66,12 +66,42 @@ module.exports.saveTicketByCash = async (res, user, payment, companyName, flight
         await conn.connect();
         let code = uuidv4();
         let field = [ flight_id, id, code, payment, companyName, season_version, correlation_id, registered ];
-        let query = `CALL create_ticket_by_cash(?, ?, ?, ?, ?, ?, ?, ?); `;
+        let query = `CALL create_ticket(?, ?, ?, ?, ?, ?, ?, ?); `;
         await interceptor.dbRequest(conn, query, field, `The result count is :::`, true);
         return code;
 
     } catch (err) {
         interceptor.response(res, 500, 'TICKET FILTER FAILED', {}, err);
+    } finally {
+        conn.end();
+    }
+};
+
+module.exports.checkAvailableMiles = async (res, user, flightList) => {
+    let season_version = 1;
+    let neededMiles = 0;
+    let conn;
+    try {
+        conn = await configLoader.getMySQL_connection();
+        await conn.connect();
+
+        let fieldAM = [user.id];
+        let queryAM = `CALL get_miles_by_id(?); `;
+        let availableMiles = await interceptor.dbRequest(conn, queryAM, fieldAM, `The result count is :::`, true);
+        availableMiles = availableMiles[0][0].totalMiles;
+        // CHANGE THAT, THE AVAILABLE ARE THE DIFFERENCE BETWEEN "REGISTERED" AND "CONSUMED"
+
+        for(let i = 0; i < flightList.length; i++) {
+            let fieldNeedM = [flightList[i], season_version];
+            let queryNeedM = `CALL get_needed_miles(?, ?); `;
+            let result = await interceptor.dbRequest(conn, queryNeedM, fieldNeedM, `The result count is :::`, true);
+
+            neededMiles += result[0][0].neededMiles;
+        }
+        return (availableMiles>neededMiles);
+
+    } catch (err) {
+        interceptor.response(res, 500, 'MILES CHECKING FAILED', {}, err);
     } finally {
         conn.end();
     }
@@ -101,14 +131,14 @@ module.exports.getFlightByFilters = async (res, filters) => {
 };
 
 module.exports.cancelTicket = async (res, request) => {
-    let {code, both} = request;
+    let {code, both, registered} = request;
     let conn;
     try {
         conn = await configLoader.getMySQL_connection();
         await conn.connect();
 
-        let field = [ code, both ];
-        let query = `CALL cancel_ticket(?, ?); `;
+        let field = [ code, both, registered ];
+        let query = `CALL cancel_ticket(?, ?, ?); `;
 
         return await interceptor.dbRequest(conn, query, field, `The result count is :::`, true);
 

@@ -104,7 +104,10 @@ export class TicketListComponent implements OnInit, OnDestroy {
       data: data
     });
 
-    dialogRef.afterClosed().subscribe(result => { console.log(result); });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.searchTicket();
+    });
   }
 
   ngOnDestroy(): void {
@@ -119,22 +122,33 @@ export class TicketListComponent implements OnInit, OnDestroy {
 // tslint:disable-next-line:component-class-suffix
 export class DialogOverview implements OnDestroy {
   private subscription: Subscription = new Subscription();
+  private readonly isRegisteredUser: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Ticket, public dialogRef: MatDialogRef<DialogOverview>,
-              private filterService: FilterService) {  }
+              private filterService: FilterService) {
+    this.isRegisteredUser = (!!sessionStorage.getItem('_logged-user'));
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   cancelFlight(code) {
-    this.subscription.add( this.filterService.update('filter/cancel', {code: code, both: false}).subscribe (
-        e => e) );
+    this.subscription.add( this.filterService.update('filter/cancel',
+        {code: code, both: false, registered: this.isRegisteredUser}).subscribe(response => this.finishCancel(response))
+    );
   }
 
   cancelByCorrelation(correlation_id) {
-    this.subscription.add( this.filterService.update('filter/cancel', {code: correlation_id, both: true}).subscribe(
-        e => e) );
+    this.subscription.add( this.filterService.update('filter/cancel',
+        {code: correlation_id, both: true, registered: this.isRegisteredUser}).subscribe(response => this.finishCancel(response))
+    );
+  }
+
+  finishCancel(response) {
+    if (response.status === 'SUCCESS') {
+      this.onNoClick();
+    }
   }
 
   ngOnDestroy(): void {

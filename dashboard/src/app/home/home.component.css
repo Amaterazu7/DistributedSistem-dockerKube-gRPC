@@ -54,3 +54,16 @@
     width: 40px;
     font-size: 40px;
 }
+
+.maps-style {
+    margin: 10px 0 !important;
+    text-align: center;
+}
+
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}

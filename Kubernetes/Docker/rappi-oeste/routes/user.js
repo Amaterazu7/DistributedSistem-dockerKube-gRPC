@@ -10,18 +10,8 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/', async (req, res, next) => {
-  let conn;
-  try {
-    conn = await configLoader.getMySQL_connection();
-
-    await conn.connect();
-    await userRepository.updateUser(conn, res, req.body);
-
-  } catch (err) {
-    interceptor.response(res, 500, 'UPDATE FAILED', {}, err);
-  } finally {
-    conn.end();
-  }
+  let idResult = await userRepository.updateUser(res, req.body);
+  interceptor.response(res, 200, 'SUCCESS', idResult);
 });
 
 router.get('/', async (req, res, next) => {

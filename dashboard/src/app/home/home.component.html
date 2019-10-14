@@ -42,10 +42,10 @@
                   <div class="col-md-6">
                     <mat-form-field>
                       <mat-label>Airport From</mat-label>
-                      <mat-select formControlName="airportFrom" required>
+                      <mat-select formControlName="airportFrom" required [(value)]="airportFrom">
                         <mat-option></mat-option>
-                        <mat-option *ngFor="let airportFrom of airportList" [value]="airportFrom">
-                          {{airportFrom.code}} - {{airportFrom.description}}, {{airportFrom.state}}
+                        <mat-option *ngFor="let airportF of airportList"  [value]="airportF">
+                          {{airportF.code}} - {{airportF.description}}, {{airportF.state}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -53,10 +53,10 @@
                   <div class="col-md-6">
                     <mat-form-field>
                       <mat-label>Airport To</mat-label>
-                      <mat-select formControlName="airportTo" required>
+                      <mat-select formControlName="airportTo" required [(value)]="airportTo">
                         <mat-option></mat-option>
-                        <mat-option *ngFor="let airportTo of airportList" [value]="airportTo">
-                          {{airportTo.code}} - {{airportTo.description}}, {{airportTo.state}}
+                        <mat-option *ngFor="let airportT of airportList" [value]="airportT">
+                          {{airportT.code}} - {{airportT.description}}, {{airportT.state}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -90,7 +90,9 @@
                 </div>
                 <div class="row" style="margin-top: 25px;">
                   <div class="col-md-2" style="padding-top: 7px;">
-                    <mat-checkbox color="warn" (change)="changeModel()">Use yours Miles</mat-checkbox>
+                    <mat-checkbox (change)="changeModel()" [disabled]="loggedUser" color="warn" >
+                      Use yours Miles
+                    </mat-checkbox>
                   </div>
                   <div class="col-md-4">
                     <div class="row">
@@ -121,7 +123,8 @@
                   </div>
                 </div>
                 <div>
-                  <button mat-raised-button matStepperNext class="btn btn-danger pull-right" (click)="searchFlights()">Search flights</button>
+                  <button mat-raised-button matStepperNext class="btn btn-danger pull-right"
+                          [disabled]="!firstFormGroup.valid" (click)="searchFlights()">Search flights</button>
                 </div>
               </form>
             </mat-step>
@@ -208,14 +211,13 @@
                   </mat-tab>
                 </mat-tab-group>
                 <div>
-                  <button mat-raised-button matStepperNext class="btn btn-danger pull-right" (click)="lastStep()">Next</button>
+                  <button mat-raised-button matStepperNext class="btn btn-danger pull-right" (click)="lastStep()">  Next Step  </button>
                   <button mat-button matStepperPrevious>Back</button>
                 </div>
               </form>
             </mat-step>
             <mat-step>
               <ng-template matStepLabel>Complete the user requirements and Pay</ng-template>
-              <!-- <form *ngIf="user"> -->
               <form style="margin: 15px 0px 20px 0px;">
                 <div class="row">
                   <div class="col-md-3">
@@ -290,14 +292,14 @@
                     <mat-form-field class="example-full-width" appearance="outline">
                       <mat-label>Nationality</mat-label>
                       <input required matInput placeholder="Argentinian" type="nationality" name="text" [(ngModel)]="user.nationality">
-                      <mat-icon matSuffix>mail_outline</mat-icon>
+                      <mat-icon matSuffix>public</mat-icon>
                     </mat-form-field>
                   </div>
                   <div class="col-md-4">
                     <mat-form-field class="example-full-width" appearance="outline">
                       <mat-label>Email address</mat-label>
                       <input required matInput placeholder="Email address" type="email" name="email" [(ngModel)]="user.email">
-                      <mat-icon matSuffix>public</mat-icon>
+                      <mat-icon matSuffix>mail_outline</mat-icon>
                     </mat-form-field>
                   </div>
                   <div class="col-md-4">
@@ -313,13 +315,26 @@
                   </div>
                 </div>
               </form>
-              <button mat-raised-button matStepperNext class="btn btn-danger pull-right" (click)="generateTicket()">Buy Ticket Now</button>
+              <button mat-raised-button matStepperNext class="btn btn-danger pull-right"
+                      [disabled]="disabledBuyerBTN()" (click)="generateTicket()"> Buy Ticket Now
+              </button>
               <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>
               </div>
             </mat-step>
           </mat-vertical-stepper>
+          <mat-divider style="margin-top: 15px" *ngIf="firstFormGroup.valid"></mat-divider>
+          <div class="row maps-style" *ngIf="firstFormGroup.valid">
+            <div class="col-md-6">
+              <mat-label style="font-weight: bold">Airport From</mat-label>
+              <iframe [src]="airportFrom.state_code | safe" width="100%" height="330" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+            <div class="col-md-6">
+              <mat-label style="font-weight: bold">Airport To</mat-label>
+              <iframe [src]="airportTo.state_code | safe" width="100%" height="330" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </div>
