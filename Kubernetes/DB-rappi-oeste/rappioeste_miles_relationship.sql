@@ -1,2 +1,0 @@
-INSERT INTO rappioeste.miles_relationship (id, miles_price, miles_ticket, version, season) VALUES ('6e74621e-6032-447d-8ca7-27123794', 2, 0.4, 0, '04/2019');
-INSERT INTO rappioeste.miles_relationship (id, miles_price, miles_ticket, version, season) VALUES ('6e75621e-6032-447d-8ca7-27123794', 3, 0.5, 1, '08/2019');
