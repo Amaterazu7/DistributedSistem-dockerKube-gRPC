@@ -4,7 +4,6 @@ import cgi
 import mysql.connector
 import json
 from datetime import date
-from mysql.connector import Error, MySQLConnection
 from flask import Flask, jsonify, request
 
 @app.route("/")
@@ -17,6 +16,37 @@ def index():
         return f"Hello from {app_name} running in a Docker container behind Nginx!! \n"
 
     return "Hello from Flask"
+
+@app.route("/ciudades", methods=['GET'])
+def ciudades():
+    connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
+    try:
+        if (request.method == 'GET'):
+            sql_select_Query = "SELECT * FROM user ; "
+            cursor = connection.cursor()
+            cursor.execute(sql_select_Query)
+                       
+            records = cursor.fetchall()
+            
+            print("Total number of rows in USERS is: ", cursor.rowcount)
+
+            x=[]
+            for row in records:
+                x.append({"id": row[0], "dni": row[1], "username": row[2], "pass": row[3], "name": row[4], "surname": row[5],
+                "email": row[6], "phone": row[7], "address": row[8], "city": row[9], "country": row[10], "nationality": row[11], "about": row[12]})
+
+            # print('Result', x)
+            return jsonify({"Result:": x}), 200
+
+        else:
+            return jsonify({"Recibido": "Error method"}), 405
+    except mysql.connector.Error as error:
+        print("Failed to execute stored procedure: {}".format(error))
+    finally:
+        if (connection.is_connected()):
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed")
 
 @app.route("/altaCiudad", methods=['POST'])
 def altaCiudad():

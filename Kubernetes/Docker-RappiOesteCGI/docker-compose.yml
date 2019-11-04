@@ -11,6 +11,8 @@ services:
         - DB_USERNAME=example
       expose:
         - 9089
+      links:
+        - mysql:mysql
 
   nginx:
       build: ./RappiOesteNginx
@@ -18,3 +20,17 @@ services:
       restart: always
       ports:
         - "8077:8077"
+
+  mysql:
+    image: mysql:8.0.18
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: rappioeste
+      MYSQL_USER: rapiuser
+      MYSQL_PASSWORD: rapiuserpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - ~/Workstation/mysql-rappi-data:/var/lib/mysql
