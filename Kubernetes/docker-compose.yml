@@ -2,12 +2,23 @@ version: "3.3"
 
 services:
 
+  node-js:
+      build: ./Docker-RappiOeste/
+      container_name: node-js
+      restart: always
+      ports:
+        - "3000:3000"
+      expose:
+        - 3000
+      links:
+        - mysql:mysql
+
   flask:
-      build: ./RappiOesteFlask
+      build: ./Docker-RappiOesteCGI/RappiOesteFlask
       container_name: flask
       restart: always
       environment:
-        - APP_NAME=DieguitoRappi
+        - APP_NAME=RappiOeste
         - DB_USERNAME=example
       expose:
         - 9089
@@ -15,7 +26,7 @@ services:
         - mysql:mysql
 
   nginx:
-      build: ./RappiOesteNginx
+      build: ./Docker-RappiOesteCGI/RappiOesteNginx
       container_name: nginx
       restart: always
       ports:

@@ -17,8 +17,8 @@ def index():
 
     return "Hello from Flask"
 
-@app.route("/ciudades", methods=['GET'])
-def ciudades():
+@app.route("/users", methods=['GET'])
+def users():
     connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
     try:
         if (request.method == 'GET'):
@@ -53,11 +53,9 @@ def altaCiudad():
     try:
         if (request.method == 'POST'):
             some_json = request.get_json()
-            connection = mysql.connector.connect(host='db4free.net',
-                                            database='rappioeste',
-                                            user='rapiuser',
-                                            password='rapiuserpass')
+            connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
             cursor = connection.cursor()
+            
             args=[some_json["code"], some_json["desc"], some_json["state"], some_json["state_code"], some_json["address"]]
             cursor.callproc("altaCiudad", args)
             connection.commit()
@@ -77,11 +75,9 @@ def bajaCiudad():
     try:
         if (request.method == 'PUT'):
             some_json = request.get_json()
-            connection = mysql.connector.connect(host='db4free.net',
-                                            database='rappioeste',
-                                            user='rapiuser',
-                                            password='rapiuserpass')
+            connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
             cursor = connection.cursor()
+
             args=[some_json["code"]]
             cursor.callproc("bajaCiudad", args)
             connection.commit()
@@ -101,11 +97,9 @@ def modificarMillas():
     try:
         if (request.method == 'PUT'):
             some_json = request.get_json()
-            connection = mysql.connector.connect(host='db4free.net',
-                                            database='rappioeste',
-                                            user='rapiuser',
-                                            password='rapiuserpass')
+            connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
             cursor = connection.cursor()
+
             today = date.today()
             args=[some_json["miles"], some_json["price"], today.month, today.year]
             cursor.callproc("modificarMillas", args)
@@ -126,11 +120,9 @@ def emitirReporte():
     try:
         if (request.method == 'GET'):
             some_json = request.get_json()
-            connection = mysql.connector.connect(host='db4free.net',
-                                            database='rappioeste',
-                                            user='rapiuser',
-                                            password='rapiuserpass')
+            connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
             cursor = connection.cursor()
+
             today = date.today()
             args=[some_json["inicio"], some_json["fin"], some_json["origen"], some_json["destino"]]
             cursor.callproc("emitirReporte", args)

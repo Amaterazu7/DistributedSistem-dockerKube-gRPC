@@ -3,9 +3,8 @@ const HashMap = require('hashmap');
 module.exports.config = (env) => {
     const DEV = {
         DB_DATABASE: 'rappioeste',
-        DB_HOST: 'db4free.net',
+        DB_HOST: 'mysql',
         DB_PASSWORD: 'rapiuserpass',
-        DB_PORT: '3306',
         DB_USER: 'rapiuser',
         POOL_MAX: 5
     };
