@@ -36,7 +36,7 @@ def users():
                 "email": row[6], "phone": row[7], "address": row[8], "city": row[9], "country": row[10], "nationality": row[11], "about": row[12]})
 
             # print('Result', x)
-            return jsonify({"Result:": x}), 200
+            return jsonify({"result": x}), 200
 
         else:
             return jsonify({"Recibido": "Error method"}), 405
@@ -115,10 +115,10 @@ def modificarMillas():
             connection.close()
             print("MySQL connection is closed")
 
-@app.route("/emitirReporte", methods=['GET'])
+@app.route("/emitirReporte", methods=['POST'])
 def emitirReporte():
     try:
-        if (request.method == 'GET'):
+        if (request.method == 'POST'):
             some_json = request.get_json()
             connection = mysql.connector.connect(host='mysql', database='rappioeste', user='rapiuser', password='rapiuserpass')
             cursor = connection.cursor()
@@ -130,8 +130,8 @@ def emitirReporte():
             for result in cursor.stored_results():
                 x.append(result.fetchall())
             print(x)
-            result_json = [{"Resultados": t} for t in zip(x)]
-            return jsonify({"Recibido:": result_json}), 200
+            result_json = [{"result": t} for t in zip(x)]
+            return jsonify(result_json[0]), 200
         else:
             return jsonify({"Recibido": "Error method"}), 405
     except mysql.connector.Error as error:

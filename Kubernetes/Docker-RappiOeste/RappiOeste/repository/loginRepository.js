@@ -8,7 +8,7 @@ module.exports.findLoginByUserName = async (res, user_name) => {
         await conn.connect();
 
         let field = [ user_name ];
-        let query = `SELECT * FROM user WHERE user_name = ? ;`;
+        let query = `CALL login (?);`;
         return await interceptor.dbRequest(conn, query, field, `The result count is :::`, true);
 
     } catch (err) {

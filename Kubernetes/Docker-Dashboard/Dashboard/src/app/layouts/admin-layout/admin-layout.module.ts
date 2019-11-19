@@ -11,7 +11,7 @@ import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
 import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import { LogInComponent } from '../../log-in/log-in.component';
+import { LogInComponent, DialogLogin } from '../../log-in/log-in.component';
 import { SignInComponent } from '../../sign-in/sign-in.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
@@ -68,7 +68,7 @@ import {
         MatCarouselModule,
         MatTableModule
     ],
-    entryComponents: [SpinnerComponent, DialogOverview, DialogSuccess],
+    entryComponents: [SpinnerComponent, DialogOverview, DialogLogin, DialogSuccess],
     declarations: [
         HomeComponent,
         DashboardComponent,
@@ -81,6 +81,7 @@ import {
         LogInComponent,
         SignInComponent,
         DialogOverview,
+        DialogLogin,
         DialogSuccess,
         SpinnerComponent,
         SafePipe

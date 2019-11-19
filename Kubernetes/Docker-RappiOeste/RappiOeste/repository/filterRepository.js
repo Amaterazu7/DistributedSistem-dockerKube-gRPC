@@ -2,7 +2,7 @@ const configLoader = require('../config/configLoader');
 const interceptor = require('../service/interceptor');
 const uuidv4 = require('uuid/v4');
 
-module.exports.getAllAirport = async (res) => {
+module.exports.getAirport = async (res) => {
     let conn;
     try {
         conn = await configLoader.getMySQL_connection();
@@ -10,6 +10,23 @@ module.exports.getAllAirport = async (res) => {
 
         let field = [ ];
         let query = `CALL get_airports(); `;
+        return await interceptor.dbRequest(conn, query, field, `The result count is :::`, true);
+
+    } catch (err) {
+        interceptor.response(res, 500, 'AIRPORT FILTER FAILED', {}, err);
+    } finally {
+        conn.end();
+    }
+};
+
+module.exports.getAllAirport = async (res) => {
+    let conn;
+    try {
+        conn = await configLoader.getMySQL_connection();
+        await conn.connect();
+
+        let field = [ ];
+        let query = `CALL get_all_airports(); `;
         return await interceptor.dbRequest(conn, query, field, `The result count is :::`, true);
 
     } catch (err) {

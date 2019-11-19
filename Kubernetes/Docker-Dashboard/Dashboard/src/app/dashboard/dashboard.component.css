@@ -1,0 +1,10 @@
+.disabledRow {
+    background-color: lightgrey;
+}
+.cust-checkbox {
+    padding-right: 45px;
+}
+
+table {
+    margin-bottom: 2rem !important;
+}

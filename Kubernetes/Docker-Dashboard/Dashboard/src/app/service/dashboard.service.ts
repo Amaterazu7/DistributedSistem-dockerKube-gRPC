@@ -4,14 +4,12 @@ import { log } from 'util';
 import { catchError } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { Observable } from 'rxjs';
-import { User } from '../model/user.model';
-import { Login } from '../model/login.model';
 import { CommonService } from './common.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class FilterService extends CommonService {
+export class DashboardService extends CommonService {
     public subjectAdjustErrorDummy = new Subject<any>();
     public readonly serviceNodeUrl: string;
     private readonly airportURL: string;
@@ -19,6 +17,15 @@ export class FilterService extends CommonService {
     constructor(private http: HttpClient) {
         super(http);
         this.airportURL = 'airport/';
+    }
+
+    public getByEntity(controller: string, entity: any): Observable<any> {
+        const temporaryAccessSubject = new Subject();
+
+        this.httpClient.post<any>(`${this.serviceFlaskUrl}${controller}`, entity).subscribe(response => {
+            temporaryAccessSubject.next(response);
+        });
+        return temporaryAccessSubject.asObservable();
     }
 
     public getAirport(): Observable<any> {

@@ -29,16 +29,22 @@ In order to run this container you'll need docker installed.
 
 #### Container Parameters
 
-Here we create a image in order to create a containers.
+We can create all instances of the projects with a docker-compose.yml file: 
+
+```shell
+$ docker-compose up -d .
+```
+
+Here we create a image in order to create a containers, example with node project.
 
 ```shell
 $ docker build -t docker-rappi-oeste:1.0.0 .
 ```
 
-One example running the docker image in our local port 9000.
+One example running the docker image in our local port 3000.
 
 ```shell
-$ docker run -it -p 9000:3000 docker-rappi-oeste:1.0.0
+$ docker run -it -p 3000:3000 docker-rappi-oeste:1.0.0
 ```
 
 One example to enter into a running container
@@ -65,6 +71,8 @@ $ docker exec -it ${ontainerID} sh
 ## Authors
 
 * **Diego Leonel Cañete** - *Initial work*
+* **Matias Torsselo** - *Initial work*
+* **Luccio Trucco** - *Initial work*
 
 ## License
 

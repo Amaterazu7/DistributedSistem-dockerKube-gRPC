@@ -6,6 +6,11 @@ const userRepository = require('../repository/userRepository');
 const interceptor = require('../service/interceptor');
 
 router.get('/airport', async (req, res, next) => {
+    let sqlResult = await filterRepository.getAirport(res);
+    interceptor.response(res, 200, 'SUCCESS', {airportList: sqlResult[0]});
+});
+
+router.get('/allAirport', async (req, res, next) => {
     let sqlResult = await filterRepository.getAllAirport(res);
     interceptor.response(res, 200, 'SUCCESS', {airportList: sqlResult[0]});
 });

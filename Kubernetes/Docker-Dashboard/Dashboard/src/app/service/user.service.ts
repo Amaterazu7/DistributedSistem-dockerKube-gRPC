@@ -13,7 +13,7 @@ import { CommonService } from './common.service';
 })
 export class UserService extends CommonService {
     public subjectAdjustErrorDummy = new Subject<any>();
-    public readonly serviceBasicUrl: string;
+    public readonly serviceNodeUrl: string;
     private readonly userURL: string;
     private readonly loginURL: string;
 
@@ -24,7 +24,7 @@ export class UserService extends CommonService {
     }
 
     public saveUser(userRequest: User): Observable<any> {
-        return this.http.post(`${this.serviceBasicUrl}${this.userURL}`, userRequest)
+        return this.http.post(`${this.serviceNodeUrl}${this.userURL}`, userRequest)
             .pipe(
                 catchError((err: HttpErrorResponse) => {
                     this.handlerError(err);
@@ -33,7 +33,7 @@ export class UserService extends CommonService {
     }
 
     public validateLogin(loginRequest: Login): Observable<any> {
-        return this.http.post(`${this.serviceBasicUrl}${this.loginURL}`, loginRequest)
+        return this.http.post(`${this.serviceNodeUrl}${this.loginURL}`, loginRequest)
             .pipe(
                 catchError((err: HttpErrorResponse) => {
                     this.handlerError(err);

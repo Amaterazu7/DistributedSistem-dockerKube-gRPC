@@ -123,289 +123,239 @@
       <div class="row">
           <div class="col-lg-6 col-md-12">
               <div class="card">
-                  <div class="card-header card-header-tabs card-header-primary">
-                      <div class="nav-tabs-navigation">
-                          <div class="nav-tabs-wrapper">
-                              <span class="nav-tabs-title">Tasks:</span>
-                              <ul class="nav nav-tabs" data-tabs="tabs">
-                                  <li class="nav-item">
-                                      <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
-                                          <i class="material-icons">bug_report</i> Bugs
-                                          <div class="ripple-container"></div>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a mat-button class="nav-link" href="#messages" data-toggle="tab">
-                                          <i class="material-icons">code</i> Website
-                                          <div class="ripple-container"></div>
-                                      </a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a mat-button class="nav-link" href="#settings" data-toggle="tab">
-                                          <i class="material-icons">cloud</i> Server
-                                          <div class="ripple-container"></div>
-                                      </a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
+                  <div class="card-header card-header-success">
+                      <h4 class="card-title">Create new Airport</h4>
+                      <p class="card-category">You can create a new Airport by this card</p>
                   </div>
                   <div class="card-body">
-                      <div class="tab-content">
-                          <div class="tab-pane active" id="profile">
-                              <table class="table">
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                          </td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Create 4 Invisible UserModel Experiences you Never Knew About</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
+                      <form [formGroup]="formGroup">
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Code</mat-label>
+                                      <input required matInput placeholder="CODE" name="code" formControlName="code"
+                                             [(ngModel)]="newAirport.code">
+                                      <mat-icon matSuffix>code</mat-icon>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>State</mat-label>
+                                      <input required matInput placeholder="State" type="text" formControlName="state"
+                                             name="state" [(ngModel)]="newAirport.state">
+                                      <mat-icon matSuffix>where_to_vote</mat-icon>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>State Code</mat-label>
+                                      <input required matInput placeholder="State Code" type="text" formControlName="state_code"
+                                             name="state_code" [(ngModel)]="newAirport.state_code">
+                                      <mat-icon matSuffix>web</mat-icon>
+                                  </mat-form-field>
+                              </div>
                           </div>
-                          <div class="tab-pane" id="messages">
-                              <table class="table">
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                          </td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>Address</mat-label>
+                                      <input required matInput placeholder="Address" type="text" name="address" formControlName="address"
+                                             [(ngModel)]="newAirport.address">
+                                      <mat-icon matSuffix>subtitles</mat-icon>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>Description</mat-label>
+                                      <input required matInput placeholder="Description" type="text" name="description" formControlName="desc"
+                                             [(ngModel)]="newAirport.description">
+                                      <mat-icon matSuffix>description</mat-icon>
+                                  </mat-form-field>
+                              </div>
                           </div>
-                          <div class="tab-pane" id="settings">
-                              <table class="table">
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                          </td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
+                      </form>
+                      <button mat-raised-button class="btn btn-success pull-right"
+                              [disabled]="!formGroup.valid" (click)="createNewAirport()"> Create
+                      </button>
                   </div>
               </div>
           </div>
           <div class="col-lg-6 col-md-12">
               <div class="card">
+                  <div class="card-header card-header-success">
+                      <h4 class="card-title">Miles Price</h4>
+                      <p class="card-category">You can change the price of each mile</p>
+                  </div>
+                  <div class="card-body">
+                      <form [formGroup]="formGroupMiles">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>Price</mat-label>
+                                      <input required matInput placeholder="Price" type="number" name="price" formControlName="price"
+                                             [(ngModel)]="price">
+                                      <mat-icon matSuffix>euro</mat-icon>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                  <mat-form-field class="example-full-width" appearance="fill">
+                                      <mat-label>Miles</mat-label>
+                                      <input required matInput placeholder="Miles" type="number" name="miles" formControlName="miles"
+                                             [(ngModel)]="miles">
+                                      <mat-icon matSuffix>edit</mat-icon>
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                      </form>
+                      <button mat-raised-button class="btn btn-success pull-right"
+                              [disabled]="!formGroupMiles.valid" (click)="modifyMiles()"> Edit
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-12 col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Report</h4>
+                      <p class="card-category">You can emit a Report about the cancelled history</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-2"></div>
+                          <div class="col-md-4">
+                              <mat-form-field color="accent">
+                                  <mat-label>From</mat-label>
+                                  <input matInput [matDatepicker]="picker1" [(ngModel)]="dateFrom">
+                                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker1></mat-datepicker>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                              <mat-form-field color="accent">
+                                  <mat-label>To</mat-label>
+                                  <input matInput [matDatepicker]="picker2" [(ngModel)]="dateTo">
+                                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker2></mat-datepicker>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-2"></div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-2"></div>
+                          <div class="col-md-4">
+                              <mat-form-field>
+                                  <mat-label>Airport From</mat-label>
+                                  <mat-select [(ngModel)]="airportFrom">
+                                      <mat-option></mat-option>
+                                      <mat-option *ngFor="let airport of airportList" [value]="airport">
+                                          {{airport.code}} - {{airport.description}}
+                                      </mat-option>
+                                  </mat-select>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-4">
+                              <mat-form-field>
+                                  <mat-label>Airport To</mat-label>
+                                  <mat-select [(ngModel)]="airportTo">
+                                      <mat-option></mat-option>
+                                      <mat-option *ngFor="let airport of airportList" [value]="airport">
+                                          {{airport.code}} - {{airport.description}}
+                                      </mat-option>
+                                  </mat-select>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-2"></div>
+                      </div>
+                      <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="searchReport()">
+                          Search
+                      </button>
+                      <div class="clearfix"></div>
+
+                      <div class="card-body table-responsive">
+                          <table mat-table class="table table-hover transparent" [dataSource]="reportList" *ngIf="reportList">
+                              <ng-container matColumnDef="origin">
+                                  <th mat-header-cell *matHeaderCellDef> Travel Origin </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.origin}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="destination">
+                                  <th mat-header-cell *matHeaderCellDef> Travel Destination </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.destination}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="cancelled">
+                                  <th mat-header-cell *matHeaderCellDef> Ticket Cancelled </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.cancelled}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="refund">
+                                  <th mat-header-cell *matHeaderCellDef> Refund </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.refund}} </td>
+                              </ng-container>
+
+                              <tr mat-header-row *matHeaderRowDef="displayedReportColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedReportColumns;"></tr>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-12 col-md-12">
+              <div class="card">
                   <div class="card-header card-header-warning">
-                      <h4 class="card-title">Employees Stats</h4>
-                      <p class="card-category">New employees on 15th September, 2016</p>
+                      <h4 class="card-title">Airports List</h4>
+                      <p class="card-category">Here you can create, edit and don't show the airports</p>
                   </div>
                   <div class="card-body table-responsive">
-                      <table class="table table-hover">
-                          <thead class="text-warning">
-                              <th>ID</th>
-                              <th>Name</th>
-                              <th>Salary</th>
-                              <th>Country</th>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>1</td>
-                                  <td>Dakota Rice</td>
-                                  <td>$36,738</td>
-                                  <td>Niger</td>
-                              </tr>
-                              <tr>
-                                  <td>2</td>
-                                  <td>Minerva Hooper</td>
-                                  <td>$23,789</td>
-                                  <td>Curaçao</td>
-                              </tr>
-                              <tr>
-                                  <td>3</td>
-                                  <td>Sage Rodriguez</td>
-                                  <td>$56,142</td>
-                                  <td>Netherlands</td>
-                              </tr>
-                              <tr>
-                                  <td>4</td>
-                                  <td>Philip Chaney</td>
-                                  <td>$38,735</td>
-                                  <td>Korea, South</td>
-                              </tr>
-                          </tbody>
+                      <table mat-table class="table table-hover transparent" [dataSource]="airportList" *ngIf="airportList">
+
+                          <ng-container matColumnDef="id">
+                              <th mat-header-cell *matHeaderCellDef> ID </th>
+                              <td mat-cell [ngClass]="{'disabledRow':!element.show_airport}" *matCellDef="let element">
+                                  {{element.id}}
+                              </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="code">
+                              <th mat-header-cell *matHeaderCellDef> Code </th>
+                              <td mat-cell [ngClass]="{'disabledRow':!element.show_airport}" *matCellDef="let element">
+                                  {{element.code}}
+                              </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="description">
+                              <th mat-header-cell *matHeaderCellDef> Description </th>
+                              <td mat-cell [ngClass]="{'disabledRow':!element.show_airport}" *matCellDef="let element">
+                                  {{element.description}}
+                              </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="state">
+                              <th mat-header-cell *matHeaderCellDef> State </th>
+                              <td mat-cell [ngClass]="{'disabledRow':!element.show_airport}" *matCellDef="let element">
+                                  {{element.state}}
+                              </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="show_airport">
+                              <th mat-header-cell *matHeaderCellDef>
+                                  <button mat-raised-button type="submit" class="btn btn-warning pull-right" (click)="callAirports()">
+                                      refresh
+                                  </button>
+                              </th>
+                              <td mat-cell [ngClass]="{'disabledRow':!element.show_airport}" *matCellDef="let element" class="td-actions text-right">
+                                  <mat-checkbox (change)="activateAirport(element.code)" [(ngModel)]="element.show_airport" color="warn"
+                                    class="cust-checkbox" matTooltip="Disable" [matTooltipPosition]="'below'" [disabled]="!element.show_airport">
+                                  </mat-checkbox>
+                              </td>
+                          </ng-container>
+
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                       </table>
                   </div>
               </div>

@@ -9,12 +9,12 @@ module.exports.config = (env) => {
         POOL_MAX: 5
     };
     const TEST = {
-        DB_DATABASE: 'rappioeste_test',
-        DB_HOST: 'db4free.net',
+        DB_DATABASE: 'rappioeste',
+        DB_HOST: 'localhost',
         DB_PASSWORD: 'rapiuserpass',
-        DB_PORT: '3306',
+        DB_PORT: '3307',
         DB_USER: 'rapiuser',
-        POOL_MAX: 1
+        POOL_MAX: 5
     };
 
     const envMap = new HashMap();

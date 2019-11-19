@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-
 export const validateSession = () => {
-    const validator = (sessionStorage.getItem('_logged-user')) ? true : false;
+    const validator = (!!sessionStorage.getItem('_logged-user'));
     return (validator);
 };
 
 export const adminSession = () => {
-    const isAdmin = true;
+    const user = JSON.parse(sessionStorage.getItem('_logged-user'));
+    const isAdmin = ( user.permission === 1 && user.role_description === 'admin' );
     return (isAdmin);
 };
 
