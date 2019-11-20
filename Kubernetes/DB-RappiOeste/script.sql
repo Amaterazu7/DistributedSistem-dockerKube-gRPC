@@ -421,7 +421,20 @@ create
     definer = rapiuser@`%` procedure login(IN p_userName varchar(50))
 BEGIN
 
-    SELECT *
+    SELECT u.id AS "id",
+           u.dni_passport,
+           u.user_name,
+           u.password,
+           u.name,
+           u.surname,
+           u.email,
+           u.phone,
+           u.address,
+           u.city,
+           u.about,
+           u.registered,
+           r.permission,
+           r.role_description
     FROM user u,
          role r
     WHERE u.id = r.user_id
@@ -481,4 +494,3 @@ BEGIN
     WHERE id = p_user_id;
 
 END;
-
