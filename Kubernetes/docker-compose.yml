@@ -45,4 +45,4 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - ~/Workstation/mysql-rappi-data:/var/lib/mysql
+      - ~/Workstation/distributedSys/mysql-rappi-data:/var/lib/mysql
